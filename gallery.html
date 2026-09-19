@@ -42,94 +42,20 @@
         <button class="filter-btn" data-filter="merch" aria-pressed="false">Merch drops</button>
         <button class="filter-btn" data-filter="lookbook" aria-pressed="false">Lookbooks</button>
         <button class="filter-btn" data-filter="live" aria-pressed="false">Live</button>
-        <span class="count eyebrow" aria-live="polite"><span data-count>18</span> pieces</span>
+        <span class="count eyebrow" aria-live="polite"><span data-count>0</span> pieces</span>
       </div>
 
       <!--
-        GALLERY ITEMS
-        Photos: replace the <div class="ph ..."> inside a button with
-          <img src="images/your-photo.jpg" alt="Describe the photo" loading="lazy">
-        Videos: keep (or swap in) a still/thumbnail, and put the YouTube or Vimeo
-        embed link in data-video, e.g.
-          data-video="https://www.youtube.com/embed/VIDEO_ID"
-          data-video="https://player.vimeo.com/video/VIDEO_ID"
-        Clicking the tile then plays the video in the full-screen viewer.
-        Keep data-category and data-title on every button so filtering works.
+        GALLERY ITEMS are loaded from data/gallery.json, which is edited in
+        Pages CMS (app.pagescms.org). See README.md for how to add work.
       -->
-      <section class="gallery" aria-label="Photos and videos">
-        <button class="g-item" data-category="musicvideo" data-title="[Artist] — “[Song Title]”" data-video="">
-          <div class="ph t5" style="--ratio: 16 / 9" data-label="No. 01"></div>
-          <span class="cap"><em>[Artist] — “[Song Title]”</em><span class="eyebrow">Music video</span></span>
-        </button>
-        <button class="g-item" data-category="merch" data-title="[Brand] — Drop [No.], on-model">
-          <div class="ph t2" style="--ratio: 4 / 5" data-label="No. 02"></div>
-          <span class="cap"><em>[Brand] — Drop [No.], on-model</em><span class="eyebrow">Merch</span></span>
-        </button>
-        <button class="g-item" data-category="artist" data-title="Single cover — [Artist]">
-          <div class="ph t3" style="--ratio: 1 / 1" data-label="No. 03"></div>
-          <span class="cap"><em>Single cover — [Artist]</em><span class="eyebrow">Artist visuals</span></span>
-        </button>
-        <button class="g-item" data-category="lookbook" data-title="[Brand] — [Season] lookbook">
-          <div class="ph t1" style="--ratio: 2 / 3" data-label="No. 04"></div>
-          <span class="cap"><em>[Brand] — [Season] lookbook</em><span class="eyebrow">Lookbook</span></span>
-        </button>
-        <button class="g-item" data-category="musicvideo" data-title="[Artist] — “[Song Title]”, vertical cut" data-video="">
-          <div class="ph t3" style="--ratio: 9 / 16" data-label="No. 05"></div>
-          <span class="cap"><em>[Artist] — “[Song Title]”, vertical cut</em><span class="eyebrow">Music video</span></span>
-        </button>
-        <button class="g-item" data-category="live" data-title="Live at [Venue]">
-          <div class="ph t5" style="--ratio: 3 / 2" data-label="No. 06"></div>
-          <span class="cap"><em>Live at [Venue]</em><span class="eyebrow">Live</span></span>
-        </button>
-        <button class="g-item" data-category="artist" data-title="Press photo — [Artist]">
-          <div class="ph t4" style="--ratio: 4 / 5" data-label="No. 07"></div>
-          <span class="cap"><em>Press photo — [Artist]</em><span class="eyebrow">Artist visuals</span></span>
-        </button>
-        <button class="g-item" data-category="merch" data-title="[Brand] — product shot">
-          <div class="ph t4" style="--ratio: 1 / 1" data-label="No. 08"></div>
-          <span class="cap"><em>[Brand] — product shot</em><span class="eyebrow">Merch</span></span>
-        </button>
-        <button class="g-item" data-category="musicvideo" data-title="[Artist] ft. [Artist] — “[Song Title]”" data-video="">
-          <div class="ph t2" style="--ratio: 16 / 9" data-label="No. 09"></div>
-          <span class="cap"><em>[Artist] ft. [Artist] — “[Song Title]”</em><span class="eyebrow">Music video</span></span>
-        </button>
-        <button class="g-item" data-category="lookbook" data-title="[Brand] — campaign">
-          <div class="ph t3" style="--ratio: 3 / 2" data-label="No. 10"></div>
-          <span class="cap"><em>[Brand] — campaign</em><span class="eyebrow">Lookbook</span></span>
-        </button>
-        <button class="g-item" data-category="live" data-title="Release party — [Artist]">
-          <div class="ph t2" style="--ratio: 4 / 5" data-label="No. 11"></div>
-          <span class="cap"><em>Release party — [Artist]</em><span class="eyebrow">Live</span></span>
-        </button>
-        <button class="g-item" data-category="artist" data-title="Behind the scenes — [Artist]">
-          <div class="ph t1" style="--ratio: 3 / 2" data-label="No. 12"></div>
-          <span class="cap"><em>Behind the scenes — [Artist]</em><span class="eyebrow">Artist visuals</span></span>
-        </button>
-        <button class="g-item" data-category="merch" data-title="[Brand] — promo clip" data-video="">
-          <div class="ph t5" style="--ratio: 9 / 16" data-label="No. 13"></div>
-          <span class="cap"><em>[Brand] — promo clip</em><span class="eyebrow">Merch</span></span>
-        </button>
-        <button class="g-item" data-category="musicvideo" data-title="[Artist] — “[Song Title]”" data-video="">
-          <div class="ph t4" style="--ratio: 16 / 9" data-label="No. 14"></div>
-          <span class="cap"><em>[Artist] — “[Song Title]”</em><span class="eyebrow">Music video</span></span>
-        </button>
-        <button class="g-item" data-category="lookbook" data-title="[Brand] — [Season] lookbook">
-          <div class="ph t2" style="--ratio: 4 / 5" data-label="No. 15"></div>
-          <span class="cap"><em>[Brand] — [Season] lookbook</em><span class="eyebrow">Lookbook</span></span>
-        </button>
-        <button class="g-item" data-category="artist" data-title="Album cover — [Artist]">
-          <div class="ph t5" style="--ratio: 1 / 1" data-label="No. 16"></div>
-          <span class="cap"><em>Album cover — [Artist]</em><span class="eyebrow">Artist visuals</span></span>
-        </button>
-        <button class="g-item" data-category="live" data-title="Pop-up — [Brand]">
-          <div class="ph t1" style="--ratio: 3 / 2" data-label="No. 17"></div>
-          <span class="cap"><em>Pop-up — [Brand]</em><span class="eyebrow">Live</span></span>
-        </button>
-        <button class="g-item" data-category="musicvideo" data-title="[Artist] — “[Song Title]”, performance cut" data-video="">
-          <div class="ph t1" style="--ratio: 16 / 9" data-label="No. 18"></div>
-          <span class="cap"><em>[Artist] — “[Song Title]”, performance cut</em><span class="eyebrow">Music video</span></span>
-        </button>
-      </section>
+      <section class="gallery" aria-label="Photos and videos" data-gallery></section>
+      <div class="gallery-empty" data-gallery-empty hidden>
+        <p class="serif">New work is on the way.</p>
+        <p class="muted">In the meantime, see the latest on Instagram.</p>
+        <a class="link" href="https://www.instagram.com/alternateexposures/" target="_blank" rel="noopener">@alternateexposures <span aria-hidden="true">→</span></a>
+      </div>
+      <noscript><p class="gallery-empty">The gallery needs JavaScript turned on to load.</p></noscript>
     </div>
 
     <section class="closing">

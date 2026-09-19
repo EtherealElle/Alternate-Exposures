@@ -1,0 +1,51 @@
+# Pages CMS configuration (https://pagescms.org)
+# Open the site in the editor at https://app.pagescms.org
+
+media:
+  input: images/gallery
+  output: /images/gallery
+  extensions: [jpg, jpeg, png, webp]
+  rename: safe
+
+content:
+  - name: gallery
+    label: Gallery
+    type: file
+    path: data/gallery.json
+    format: json
+    list: true
+    fields:
+      - name: image
+        label: Photo
+        type: image
+        required: true
+        description: For a music video or clip, upload a still from it to use as the thumbnail. JPG, PNG or WebP only (iPhone HEIC photos need to be exported as JPG first).
+      - name: title
+        label: Title
+        type: string
+        required: true
+        description: Shown under the photo, e.g. "Lil Example — 'Song Title'" or "Brand Name — Fall drop".
+      - name: category
+        label: Category
+        type: select
+        required: true
+        options:
+          values:
+            - name: musicvideo
+              label: Music video
+            - name: artist
+              label: Artist visuals (cover art, press)
+            - name: merch
+              label: Merch drop
+            - name: lookbook
+              label: Lookbook / campaign
+            - name: live
+              label: Live show / event
+      - name: video
+        label: Video link (optional)
+        type: string
+        description: For music videos and clips, paste the YouTube or Vimeo link. Leave empty for photos.
+      - name: featured
+        label: Show on homepage
+        type: boolean
+        description: Tick up to 3 pieces for the "Selected work" section on the home page.

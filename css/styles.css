@@ -803,21 +803,6 @@ em, .ital { font-family: var(--serif); font-style: italic; }
   * { transition: none !important; }
 }
 
-/* Video tiles in the gallery: small play badge on the thumbnail */
-.g-item[data-video] .ph::before {
-  content: "▶  Video";
-  position: absolute;
-  top: 12px;
-  left: 12px;
-  padding: 5px 10px;
-  background: rgba(28, 26, 23, 0.72);
-  color: var(--paper);
-  font-family: var(--sans);
-  font-size: 10px;
-  font-weight: 500;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-}
 .lb-stage iframe { flex: none; border: 0; background: var(--ink); }
 
 /* Intro pricing: regular price struck through beside the intro rate */
@@ -839,3 +824,35 @@ em, .ital { font-family: var(--serif); font-style: italic; }
   font-size: 14px;
 }
 .intro-flag .eyebrow { display: block; margin-bottom: 2px; color: var(--accent); }
+
+/* Gallery tiles loaded from data/gallery.json */
+.g-frame { position: relative; display: block; overflow: hidden; background: var(--paper-2); }
+.g-frame img { width: 100%; height: auto; transition: filter 0.4s ease, transform 0.6s ease; }
+.g-item:hover .g-frame img { filter: brightness(0.92); transform: scale(1.015); }
+.g-item[data-video] .g-frame::before {
+  content: "▶  Video";
+  position: absolute;
+  z-index: 1;
+  top: 12px;
+  left: 12px;
+  padding: 5px 10px;
+  background: rgba(28, 26, 23, 0.72);
+  color: var(--paper);
+  font-family: var(--sans);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.gallery-empty {
+  padding: clamp(40px, 8vw, 100px) 0 clamp(64px, 10vw, 140px);
+  text-align: center;
+}
+.gallery-empty[hidden] { display: none; }
+.gallery-empty .serif { margin: 0 0 6px; font-size: clamp(28px, 3vw, 40px); }
+.gallery-empty .muted { margin: 0 0 24px; }
+
+/* Home "Selected work" tiles once real images are added */
+.ph.has-img { background-size: cover; background-position: center; }
+.ph.has-img::after { content: none; }

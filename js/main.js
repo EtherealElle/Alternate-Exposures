@@ -8,43 +8,132 @@
   });
 
   /* ------------------------------------------------------------------
-     Gallery: filtering
+     Gallery data
+     The gallery is edited in Pages CMS, which saves it to data/gallery.json
+     (a list of { image, title, category, video, featured }).
      ------------------------------------------------------------------ */
-  var items = Array.prototype.slice.call(document.querySelectorAll(".g-item"));
-  var filterBtns = document.querySelectorAll(".filter-btn");
-  var countEl = document.querySelector("[data-count]");
+  var CATEGORY_LABELS = {
+    musicvideo: "Music video",
+    artist: "Artist visuals",
+    merch: "Merch",
+    lookbook: "Lookbook",
+    live: "Live"
+  };
 
-  function applyFilter(filter) {
-    var shown = 0;
-    items.forEach(function (item) {
-      var match = filter === "all" || item.dataset.category === filter;
-      item.hidden = !match;
-      if (match) shown++;
-    });
-    filterBtns.forEach(function (btn) {
-      btn.setAttribute("aria-pressed", String(btn.dataset.filter === filter));
-    });
-    if (countEl) countEl.textContent = shown;
+  // Paths are saved as "/images/gallery/x.jpg". Strip the leading slash so
+  // they resolve correctly when the site lives in a subfolder (GitHub Pages).
+  function mediaPath(path) {
+    return String(path || "").replace(/^\/+/, "");
   }
 
-  if (filterBtns.length) {
+  // Turn a normal YouTube / Vimeo link into an embeddable player URL.
+  function embedUrl(link) {
+    if (!link) return "";
+    var m;
+    if ((m = link.match(/(?:youtube\.com\/(?:watch\?(?:.*&)?v=|shorts\/|embed\/|live\/)|youtu\.be\/)([\w-]{6,})/))) {
+      return "https://www.youtube-nocookie.com/embed/" + m[1] + "?autoplay=1&rel=0";
+    }
+    if ((m = link.match(/vimeo\.com\/(?:video\/)?(\d+)/))) {
+      return "https://player.vimeo.com/video/" + m[1] + "?autoplay=1";
+    }
+    return "";
+  }
+
+  var galleryData = null;
+  function loadGallery() {
+    if (!galleryData) {
+      galleryData = fetch("data/gallery.json", { cache: "no-cache" })
+        .then(function (r) { return r.ok ? r.json() : []; })
+        .then(function (data) {
+          return (Array.isArray(data) ? data : []).filter(function (d) { return d && d.image; });
+        })
+        .catch(function () { return []; });
+    }
+    return galleryData;
+  }
+
+  /* ------------------------------------------------------------------
+     Gallery page
+     ------------------------------------------------------------------ */
+  var galleryEl = document.querySelector("[data-gallery]");
+  if (galleryEl) {
+    loadGallery().then(function (entries) {
+      entries.forEach(function (entry) {
+        var label = CATEGORY_LABELS[entry.category] || "";
+        var btn = document.createElement("button");
+        btn.className = "g-item";
+        btn.dataset.category = entry.category || "";
+        btn.dataset.title = entry.title || "";
+        var video = embedUrl(entry.video);
+        if (video) btn.dataset.video = video;
+
+        var frame = document.createElement("span");
+        frame.className = "g-frame";
+        var img = document.createElement("img");
+        img.src = mediaPath(entry.image);
+        img.alt = entry.title || label;
+        img.loading = "lazy";
+        img.decoding = "async";
+        frame.appendChild(img);
+
+        var cap = document.createElement("span");
+        cap.className = "cap";
+        var em = document.createElement("em");
+        em.textContent = entry.title || "";
+        var tag = document.createElement("span");
+        tag.className = "eyebrow";
+        tag.textContent = label;
+        cap.appendChild(em);
+        cap.appendChild(tag);
+
+        btn.appendChild(frame);
+        btn.appendChild(cap);
+        galleryEl.appendChild(btn);
+      });
+
+      var empty = document.querySelector("[data-gallery-empty]");
+      if (empty) empty.hidden = entries.length > 0;
+      initGallery(Array.prototype.slice.call(galleryEl.querySelectorAll(".g-item")));
+    });
+  }
+
+  function initGallery(items) {
+    var filterBtns = document.querySelectorAll(".filter-btn");
+    var countEl = document.querySelector("[data-count]");
+
+    function applyFilter(filter) {
+      var shown = 0;
+      items.forEach(function (item) {
+        var match = filter === "all" || item.dataset.category === filter;
+        item.hidden = !match;
+        if (match) shown++;
+      });
+      filterBtns.forEach(function (btn) {
+        btn.setAttribute("aria-pressed", String(btn.dataset.filter === filter));
+      });
+      if (countEl) countEl.textContent = shown;
+    }
+
     filterBtns.forEach(function (btn) {
       btn.addEventListener("click", function () {
         applyFilter(btn.dataset.filter);
         history.replaceState(null, "", btn.dataset.filter === "all" ? location.pathname : "#" + btn.dataset.filter);
       });
     });
-    // Deep links like gallery.html#portrait
+    // Deep links like gallery.html#merch
     var hash = location.hash.slice(1);
     var valid = Array.prototype.some.call(filterBtns, function (b) { return b.dataset.filter === hash; });
-    if (hash && valid) applyFilter(hash);
+    applyFilter(hash && valid ? hash : "all");
+
+    initLightbox(items);
   }
 
   /* ------------------------------------------------------------------
      Gallery: lightbox
      ------------------------------------------------------------------ */
-  var lb = document.querySelector(".lightbox");
-  if (lb && items.length) {
+  function initLightbox(items) {
+    var lb = document.querySelector(".lightbox");
+    if (!lb || !items.length) return;
     var stage = lb.querySelector("[data-lb-stage]");
     var titleEl = lb.querySelector("[data-lb-title]");
     var countLb = lb.querySelector("[data-lb-count]");
@@ -61,32 +150,41 @@
     function render() {
       var list = visibleItems();
       var item = list[current];
-      var thumb = item.querySelector(".ph, img");
+      var thumb = item.querySelector("img");
       var media;
       if (item.dataset.video) {
-        // Music videos / clips: play the YouTube or Vimeo embed
+        // Music videos / clips: play the YouTube or Vimeo embed, shaped like its thumbnail
         media = document.createElement("iframe");
         media.src = item.dataset.video;
         media.title = item.dataset.title;
         media.allow = "autoplay; encrypted-media; picture-in-picture; fullscreen";
         media.allowFullscreen = true;
-        media.style.setProperty("--ratio", thumb.style.getPropertyValue("--ratio") || "16 / 9");
+        var setRatio = function () {
+          media.style.setProperty("--ratio", thumb.naturalWidth ? thumb.naturalWidth + " / " + thumb.naturalHeight : "16 / 9");
+        };
+        setRatio();
+        if (thumb && !thumb.naturalWidth) {
+          // Thumbnail not loaded yet: reshape the player once it is
+          thumb.loading = "eager";
+          thumb.addEventListener("load", function () { setRatio(); fit(); }, { once: true });
+        }
       } else {
         media = thumb.cloneNode(true);
+        media.loading = "eager";
       }
       stage.innerHTML = "";
       stage.appendChild(media);
       fit();
       var label = item.querySelector(".cap .eyebrow");
-      titleEl.textContent = item.dataset.title + (label ? " — " + label.textContent : "");
+      titleEl.textContent = item.dataset.title + (label && label.textContent ? " — " + label.textContent : "");
       countLb.textContent = pad(current + 1) + " / " + pad(list.length);
     }
 
-    // Scale the frame to fit the stage while keeping its aspect ratio
+    // Scale a video frame to fit the stage while keeping its aspect ratio
     function fit() {
       var media = stage.firstElementChild;
       if (!media || media.tagName === "IMG") return;
-      var parts = (media.style.getPropertyValue("--ratio") || "3 / 2").split("/");
+      var parts = (media.style.getPropertyValue("--ratio") || "16 / 9").split("/");
       var ratio = parseFloat(parts[0]) / parseFloat(parts[1]);
       var cs = getComputedStyle(stage);
       var w = stage.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
@@ -140,6 +238,31 @@
         if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
         else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
       }
+    });
+  }
+
+  /* ------------------------------------------------------------------
+     Home page: "Selected work" uses entries marked "Show on homepage",
+     topped up with other entries in gallery order. With no entries yet,
+     the placeholder tiles stay as they are.
+     ------------------------------------------------------------------ */
+  var slots = Array.prototype.slice.call(document.querySelectorAll("[data-work-slot]"));
+  if (slots.length) {
+    loadGallery().then(function (entries) {
+      var featured = entries.filter(function (e) { return e.featured; });
+      var rest = entries.filter(function (e) { return !e.featured; });
+      var picks = featured.concat(rest).slice(0, slots.length);
+      picks.forEach(function (entry, i) {
+        var slot = slots[i];
+        var ph = slot.querySelector(".ph");
+        ph.style.backgroundImage = 'url("' + mediaPath(entry.image).replace(/"/g, "%22") + '")';
+        ph.classList.add("has-img");
+        ph.setAttribute("aria-label", entry.title || "");
+        slot.href = "gallery.html" + (entry.category ? "#" + entry.category : "");
+        slot.querySelector("figcaption em").textContent = entry.title || "";
+        var tag = slot.querySelector("figcaption .eyebrow");
+        tag.textContent = CATEGORY_LABELS[entry.category] || tag.textContent;
+      });
     });
   }
 
