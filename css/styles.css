@@ -147,7 +147,7 @@ em, .ital { font-family: var(--serif); font-style: italic; }
 .nav a[aria-current="page"]::after { right: 0; }
 .nav a[aria-current="page"] { color: var(--accent); }
 
-@media (max-width: 860px) {
+@media (max-width: 1100px) {
   .masthead .container { grid-template-columns: 1fr auto; }
   .masthead .meta { display: none; }
 }
