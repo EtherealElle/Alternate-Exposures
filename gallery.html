@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gallery — Alternate Exposures</title>
+  <meta name="description" content="Portfolio of portrait, couples, event, commercial and street photography by Bryson Glass.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="masthead">
+    <div class="container">
+      <span class="meta eyebrow">Photography by Bryson Glass</span>
+      <a class="logo" href="index.html">Alternate <em>Exposures</em></a>
+      <nav aria-label="Primary">
+        <ul class="nav">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="gallery.html" aria-current="page">Gallery</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <div class="container">
+      <section class="page-head">
+        <span class="eyebrow">The portfolio</span>
+        <h1>Gal<em>lery</em></h1>
+        <p>A working archive of recent sessions. Choose a category, or select any photograph to view it in full.</p>
+      </section>
+
+      <div class="filters" role="group" aria-label="Filter gallery">
+        <button class="filter-btn" data-filter="all" aria-pressed="true">All</button>
+        <button class="filter-btn" data-filter="portrait" aria-pressed="false">Portrait</button>
+        <button class="filter-btn" data-filter="couples" aria-pressed="false">Couples</button>
+        <button class="filter-btn" data-filter="event" aria-pressed="false">Events</button>
+        <button class="filter-btn" data-filter="commercial" aria-pressed="false">Commercial</button>
+        <button class="filter-btn" data-filter="street" aria-pressed="false">Street</button>
+        <span class="count eyebrow" aria-live="polite"><span data-count>18</span> photographs</span>
+      </div>
+
+      <!--
+        GALLERY ITEMS
+        To add a real photo, replace the <div class="ph ..."> inside a button with:
+          <img src="images/your-photo.jpg" alt="Describe the photo" loading="lazy">
+        Keep data-category and data-title on the button so filtering + the viewer work.
+      -->
+      <section class="gallery" aria-label="Photographs">
+        <button class="g-item" data-category="portrait" data-title="Portrait study I">
+          <div class="ph t2" style="--ratio: 4 / 5" data-label="No. 01"></div>
+          <span class="cap"><em>Portrait study I</em><span class="eyebrow">Portrait</span></span>
+        </button>
+        <button class="g-item" data-category="event" data-title="Night set">
+          <div class="ph t5" style="--ratio: 3 / 2" data-label="No. 02"></div>
+          <span class="cap"><em>Night set</em><span class="eyebrow">Event</span></span>
+        </button>
+        <button class="g-item" data-category="commercial" data-title="Product, still">
+          <div class="ph t4" style="--ratio: 1 / 1" data-label="No. 03"></div>
+          <span class="cap"><em>Product, still</em><span class="eyebrow">Commercial</span></span>
+        </button>
+        <button class="g-item" data-category="couples" data-title="Golden hour">
+          <div class="ph t1" style="--ratio: 2 / 3" data-label="No. 04"></div>
+          <span class="cap"><em>Golden hour</em><span class="eyebrow">Couples</span></span>
+        </button>
+        <button class="g-item" data-category="street" data-title="Crosswalk">
+          <div class="ph t3" style="--ratio: 3 / 2" data-label="No. 05"></div>
+          <span class="cap"><em>Crosswalk</em><span class="eyebrow">Street</span></span>
+        </button>
+        <button class="g-item" data-category="portrait" data-title="Headshot, window light">
+          <div class="ph t4" style="--ratio: 4 / 5" data-label="No. 06"></div>
+          <span class="cap"><em>Headshot, window light</em><span class="eyebrow">Portrait</span></span>
+        </button>
+        <button class="g-item" data-category="event" data-title="First dance">
+          <div class="ph t2" style="--ratio: 2 / 3" data-label="No. 07"></div>
+          <span class="cap"><em>First dance</em><span class="eyebrow">Event</span></span>
+        </button>
+        <button class="g-item" data-category="street" data-title="Late train">
+          <div class="ph t5" style="--ratio: 16 / 9" data-label="No. 08"></div>
+          <span class="cap"><em>Late train</em><span class="eyebrow">Street</span></span>
+        </button>
+        <button class="g-item" data-category="commercial" data-title="Brand lookbook">
+          <div class="ph t3" style="--ratio: 4 / 5" data-label="No. 09"></div>
+          <span class="cap"><em>Brand lookbook</em><span class="eyebrow">Commercial</span></span>
+        </button>
+        <button class="g-item" data-category="couples" data-title="Engagement, downtown">
+          <div class="ph t2" style="--ratio: 3 / 2" data-label="No. 10"></div>
+          <span class="cap"><em>Engagement, downtown</em><span class="eyebrow">Couples</span></span>
+        </button>
+        <button class="g-item" data-category="portrait" data-title="Senior portrait">
+          <div class="ph t1" style="--ratio: 2 / 3" data-label="No. 11"></div>
+          <span class="cap"><em>Senior portrait</em><span class="eyebrow">Portrait</span></span>
+        </button>
+        <button class="g-item" data-category="event" data-title="Crowd, stage left">
+          <div class="ph t3" style="--ratio: 1 / 1" data-label="No. 12"></div>
+          <span class="cap"><em>Crowd, stage left</em><span class="eyebrow">Event</span></span>
+        </button>
+        <button class="g-item" data-category="street" data-title="Shadow play">
+          <div class="ph t4" style="--ratio: 4 / 5" data-label="No. 13"></div>
+          <span class="cap"><em>Shadow play</em><span class="eyebrow">Street</span></span>
+        </button>
+        <button class="g-item" data-category="commercial" data-title="Menu shoot">
+          <div class="ph t5" style="--ratio: 3 / 2" data-label="No. 14"></div>
+          <span class="cap"><em>Menu shoot</em><span class="eyebrow">Commercial</span></span>
+        </button>
+        <button class="g-item" data-category="couples" data-title="Rooftop">
+          <div class="ph t3" style="--ratio: 4 / 5" data-label="No. 15"></div>
+          <span class="cap"><em>Rooftop</em><span class="eyebrow">Couples</span></span>
+        </button>
+        <button class="g-item" data-category="portrait" data-title="Portrait study II">
+          <div class="ph t5" style="--ratio: 3 / 2" data-label="No. 16"></div>
+          <span class="cap"><em>Portrait study II</em><span class="eyebrow">Portrait</span></span>
+        </button>
+        <button class="g-item" data-category="event" data-title="Graduation day">
+          <div class="ph t1" style="--ratio: 4 / 5" data-label="No. 17"></div>
+          <span class="cap"><em>Graduation day</em><span class="eyebrow">Event</span></span>
+        </button>
+        <button class="g-item" data-category="street" data-title="Neon, rain">
+          <div class="ph t2" style="--ratio: 2 / 3" data-label="No. 18"></div>
+          <span class="cap"><em>Neon, rain</em><span class="eyebrow">Street</span></span>
+        </button>
+      </section>
+    </div>
+
+    <section class="closing">
+      <div class="container">
+        <span class="eyebrow">Like what you see?</span>
+        <h2>Let's make something <em>worth keeping.</em></h2>
+        <a class="btn" href="contact.html">Book a session</a>
+      </div>
+    </section>
+  </main>
+
+  <!-- Lightbox -->
+  <div class="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer" hidden>
+    <div class="lb-bar">
+      <span class="eyebrow" data-lb-count>01 / 18</span>
+      <button class="lb-btn" data-lb-close>Close ✕</button>
+    </div>
+    <div class="lb-stage" data-lb-stage></div>
+    <div class="lb-foot">
+      <button class="lb-btn" data-lb-prev>← Previous</button>
+      <span class="lb-title" data-lb-title></span>
+      <button class="lb-btn" data-lb-next>Next →</button>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-cols">
+        <div>
+          <p class="footer-brand">Alternate <em>Exposures</em></p>
+          <p class="muted" style="margin: 0;">Photography by Bryson Glass</p>
+        </div>
+        <div>
+          <h4 class="eyebrow">Pages</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="gallery.html">Gallery</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="eyebrow">Follow</h4>
+          <ul>
+            <li><a href="#">Instagram</a></li>
+            <li><a href="#">Facebook</a></li>
+            <li><a href="#">TikTok</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="eyebrow">Contact</h4>
+          <ul>
+            <li><a href="mailto:hello@example.com">hello@example.com</a></li>
+            <li><a href="tel:+10000000000">(000) 000-0000</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-base eyebrow">
+        <span>© <span data-year>2026</span> Alternate Exposures</span>
+        <span>All images © Bryson Glass</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
