@@ -30,7 +30,7 @@ Then visit http://localhost:8080.
 - **Photos:** put images in an `images/` folder and swap each `<div class="ph ...">` for `<img src="images/photo.jpg" alt="...">`. See the comment at the top of the gallery grid in `gallery.html`.
 - **Music videos:** on a gallery tile, set `data-video` to the YouTube or Vimeo embed link (for example `https://www.youtube.com/embed/VIDEO_ID`). Clicking the tile then plays the video in the full-screen viewer.
 - **Contact form:** it validates but doesn't send yet. Point the form's `action` at a form service (Formspree, Netlify Forms, Basin) and remove the `data-demo` attribute.
-- **Social links:** the Instagram, TikTok and YouTube links in the footer, and the Instagram handle on the contact page.
+- **Social links:** the TikTok and YouTube links in the footer (Instagram is done).
 
 ## Publishing with GitHub Pages
 
