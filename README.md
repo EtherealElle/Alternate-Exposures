@@ -19,7 +19,7 @@ Styles live in `css/styles.css` and scripts in `js/main.js`. Gallery entries are
 Everything in the gallery, and the three "Selected work" tiles on the home page, comes from Pages CMS.
 
 1. Go to **https://app.pagescms.org** and sign in (GitHub account, or the email invite link for collaborators).
-2. Open the **Alternate-Expostures** repository, then **Gallery** in the sidebar.
+2. Open the **Alternate-Exposures** repository, then **Gallery** in the sidebar.
 3. **To add work:** add a new entry to the list (the **+ Add** button), then fill in:
    - **Photo:** upload the image. For a music video or clip, upload a still from it to use as the thumbnail.
    - **Title:** e.g. *Lil Example — "Song Title"* or *Brand Name — Fall drop*.
