@@ -829,7 +829,8 @@ em, .ital { font-family: var(--serif); font-style: italic; }
   text-decoration-color: var(--accent);
   text-decoration-thickness: 1px;
 }
-.rates-intro s { color: var(--muted); text-decoration-color: var(--accent); }
+.rates-intro s,
+.rate p s { color: var(--muted); text-decoration-color: var(--accent); }
 .intro-flag {
   margin: 18px 0 0;
   padding: 12px 16px;
@@ -838,11 +839,3 @@ em, .ital { font-family: var(--serif); font-style: italic; }
   font-size: 14px;
 }
 .intro-flag .eyebrow { display: block; margin-bottom: 2px; color: var(--accent); }
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip: rect(0 0 0 0);
-  white-space: nowrap;
-}
