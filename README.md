@@ -25,7 +25,6 @@ Then visit http://localhost:8080.
 ## Still to fill in
 
 - **Email and phone:** replace `hello@example.com` and `(000) 000-0000` in all three HTML files.
-- **Rates:** the `$000` prices in the rates section of `index.html`.
 - **Bracketed text:** `[Artist]`, `[Brand]`, `[Song Title]`, `[#]`, `[@handle]` and the bio line in the About section.
 - **Photos:** put images in an `images/` folder and swap each `<div class="ph ...">` for `<img src="images/photo.jpg" alt="...">`. See the comment at the top of the gallery grid in `gallery.html`.
 - **Music videos:** on a gallery tile, set `data-video` to the YouTube or Vimeo embed link (for example `https://www.youtube.com/embed/VIDEO_ID`). Clicking the tile then plays the video in the full-screen viewer.
