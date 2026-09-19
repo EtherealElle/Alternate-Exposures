@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Contact — Alternate Exposures</title>
-  <meta name="description" content="Book an on-location photo session in Atlanta, or request a quote from Bryson Glass at Alternate Exposures.">
+  <title>Contact — Alternate Exposures · Book a Music Video or Merch Shoot in Atlanta</title>
+  <meta name="description" content="Book a music video, cover art shoot, merch drop or lookbook in Atlanta with Bryson Glass at Alternate Exposures.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
@@ -15,7 +15,7 @@
 
   <header class="masthead">
     <div class="container">
-      <span class="meta eyebrow">Photography by Bryson Glass · Atlanta, GA</span>
+      <span class="meta eyebrow">Photo &amp; Video · Atlanta, GA</span>
       <a class="logo" href="index.html">Alternate <em>Exposures</em></a>
       <nav aria-label="Primary">
         <ul class="nav">
@@ -31,22 +31,22 @@
     <div class="container">
       <section class="page-head">
         <span class="eyebrow">Bookings &amp; inquiries</span>
-        <h1>Say <em>hello</em></h1>
-        <p>Tell me a little about what you have in mind. I usually reply within [24–48] hours.</p>
+        <h1>Let's <em>work</em></h1>
+        <p>Artists: send the track or the idea. Brands: send the drop date. I'll get back to you within [24–48] hours.</p>
       </section>
 
       <section class="contact">
         <aside aria-label="Contact details">
           <ul class="details">
             <li><span class="eyebrow">Email</span><a href="mailto:hello@example.com">hello@example.com</a></li>
-            <li><span class="eyebrow">Telephone</span><a href="tel:+10000000000">(000) 000-0000</a></li>
-            <li><span class="eyebrow">Based in</span><span class="val">Atlanta, Georgia</span></li>
-            <li><span class="eyebrow">Sessions</span><span class="val">On location only</span></li>
-            <li><span class="eyebrow">Hours</span><span class="val">By appointment</span></li>
+            <li><span class="eyebrow">Phone / text</span><a href="tel:+10000000000">(000) 000-0000</a></li>
+            <li><span class="eyebrow">Instagram</span><a href="#">@[handle]</a></li>
+            <li><span class="eyebrow">Based in</span><span class="val">Atlanta, GA</span></li>
+            <li><span class="eyebrow">Shooting</span><span class="val">On location across Atlanta &amp; surrounding areas</span></li>
           </ul>
           <figure class="fig">
-            <div class="ph t3" style="--ratio: 4 / 5" role="img" aria-label="Portrait of Bryson Glass placeholder" data-label="Portrait of the photographer"></div>
-            <figcaption><em>Bryson Glass</em><span class="eyebrow">Photographer</span></figcaption>
+            <div class="ph t5" style="--ratio: 4 / 5" role="img" aria-label="Photo of Bryson Glass on set placeholder" data-label="Bryson on set"></div>
+            <figcaption><em>Bryson Glass</em><span class="eyebrow">Photo &amp; video</span></figcaption>
           </figure>
         </aside>
 
@@ -57,15 +57,19 @@
           (e.g. Formspree / Netlify Forms / Basin) and remove data-demo.
         -->
         <form class="form" id="contact-form" novalidate data-demo>
-          <span class="eyebrow">Inquiry form</span>
-          <h2 class="h2">Book a <em>session</em></h2>
+          <span class="eyebrow">Booking form</span>
+          <h2 class="h2">Book a <em>shoot</em></h2>
           <p>Fields marked <span style="color: var(--accent);">*</span> are required.</p>
 
           <div class="form-grid">
             <div class="field">
-              <label class="eyebrow" for="name">Name <span class="req">*</span></label>
+              <label class="eyebrow" for="name">Your name <span class="req">*</span></label>
               <input id="name" name="name" type="text" autocomplete="name" required>
               <span class="err">Please enter your name.</span>
+            </div>
+            <div class="field">
+              <label class="eyebrow" for="act">Artist or brand name</label>
+              <input id="act" name="artist_or_brand" type="text" autocomplete="organization">
             </div>
             <div class="field">
               <label class="eyebrow" for="email">Email <span class="req">*</span></label>
@@ -77,20 +81,33 @@
               <input id="phone" name="phone" type="tel" autocomplete="tel">
             </div>
             <div class="field">
-              <label class="eyebrow" for="session">Session type <span class="req">*</span></label>
-              <select id="session" name="session" required>
+              <label class="eyebrow" for="role">I'm reaching out as <span class="req">*</span></label>
+              <select id="role" name="role" required>
                 <option value="">Select one…</option>
-                <option value="portrait">Portrait</option>
-                <option value="couples">Couples &amp; Family</option>
-                <option value="event">Event</option>
-                <option value="commercial">Commercial</option>
+                <option value="artist">An artist</option>
+                <option value="brand">A clothing brand</option>
+                <option value="team">Management / label</option>
                 <option value="other">Something else</option>
               </select>
-              <span class="err">Please choose a session type.</span>
+              <span class="err">Please choose one.</span>
             </div>
             <div class="field">
-              <label class="eyebrow" for="date">Preferred date</label>
-              <input id="date" name="date" type="date">
+              <label class="eyebrow" for="project">What do you need? <span class="req">*</span></label>
+              <select id="project" name="project" required>
+                <option value="">Select one…</option>
+                <option value="musicvideo">Music video</option>
+                <option value="artist">Cover art / press photos</option>
+                <option value="merch">Merch drop content</option>
+                <option value="lookbook">Lookbook / campaign</option>
+                <option value="live">Live show / event</option>
+                <option value="bundle">A bundle (a few of these)</option>
+                <option value="other">Something else</option>
+              </select>
+              <span class="err">Please choose a project type.</span>
+            </div>
+            <div class="field">
+              <label class="eyebrow" for="date">Release / drop date</label>
+              <input id="date" name="release_date" type="date">
             </div>
             <div class="field">
               <label class="eyebrow" for="budget">Budget</label>
@@ -101,16 +118,24 @@
                 <option>$[000]+</option>
               </select>
             </div>
+            <div class="field">
+              <label class="eyebrow" for="instagram">Instagram</label>
+              <input id="instagram" name="instagram" type="text" placeholder="@">
+            </div>
+            <div class="field">
+              <label class="eyebrow" for="link">Link to track, lookbook or mood board</label>
+              <input id="link" name="link" type="text" inputmode="url" placeholder="SoundCloud, Drive, Pinterest…">
+            </div>
             <div class="field full">
               <label class="eyebrow" for="message">Tell me about it <span class="req">*</span></label>
-              <textarea id="message" name="message" required placeholder="Where you'd like to shoot (or if you'd like suggestions), mood, number of people — anything that helps."></textarea>
+              <textarea id="message" name="message" required placeholder="The concept, the vibe, locations you have in mind, how many looks or pieces — anything that helps."></textarea>
               <span class="err">Please add a short message.</span>
             </div>
           </div>
 
           <div class="form-actions">
             <span class="muted" style="font-size: 14px;">Your details are only used to reply to you.</span>
-            <button class="btn" type="submit">Send inquiry</button>
+            <button class="btn" type="submit">Send it</button>
           </div>
 
           <div class="form-status" role="status" aria-live="polite"></div>
@@ -127,24 +152,32 @@
           </div>
         </div>
         <details>
-          <summary>How far in advance should I book?</summary>
-          <p>[Placeholder] Portrait sessions are usually booked two to three weeks ahead. For events, the earlier the better.</p>
+          <summary>Do you shoot video or just photos?</summary>
+          <p>Both. Music videos and short-form promo clips on the video side; cover art, press photos, product and on-model shots on the photo side. A lot of clients book both on the same day.</p>
+        </details>
+        <details>
+          <summary>Can you work around my release date?</summary>
+          <p>That's the plan. Tell me when the single or the drop goes live and we'll schedule the shoot and edit backward from that date. [Placeholder: standard turnaround is [#] days for photos and [#] days for music videos; rush delivery is available.]</p>
+        </details>
+        <details>
+          <summary>Will I get content sized for Instagram, TikTok and YouTube?</summary>
+          <p>Yes. Music videos come as a 16:9 master plus vertical cutdowns for Reels, TikTok and Shorts. Photos come in square and vertical crops, plus web store sizes for brands and streaming-ready cover files for artists.</p>
+        </details>
+        <details>
+          <summary>Do you help with the concept and locations?</summary>
+          <p>Yes. There's no studio. Every shoot is on location, so we'll pick spots around Atlanta that fit the song or the collection. Bring a full treatment or just a feeling; either works.</p>
+        </details>
+        <details>
+          <summary>Can you bring models, stylists or a crew?</summary>
+          <p>[Placeholder] For lookbooks and bigger productions I can connect you with models, stylists and extra crew in the Atlanta area. Crew costs are quoted separately.</p>
         </details>
         <details>
           <summary>Is a deposit required?</summary>
-          <p>[Placeholder] A [xx]% non-refundable retainer secures your date. The balance is due [before / on] the day of the session.</p>
-        </details>
-        <details>
-          <summary>How long until I receive my photographs?</summary>
-          <p>[Placeholder] Edited galleries are delivered within [#] days for sessions and [#] days for events.</p>
-        </details>
-        <details>
-          <summary>Do you have a studio?</summary>
-          <p>No — every session is shot on location. That might be somewhere meaningful to you, a spot that suits the look you're after, or one of my favorite places around Atlanta. If you're not sure where, I'm happy to suggest a few.</p>
+          <p>[Placeholder] A [xx]% non-refundable deposit locks in your shoot date. The balance is due [before / on] delivery.</p>
         </details>
         <details>
           <summary>Do you travel outside Atlanta?</summary>
-          <p>[Placeholder] Yes. Sessions within metro Atlanta are included; travel beyond that is quoted separately.</p>
+          <p>[Placeholder] Yes. Shoots in metro Atlanta are included; travel to surrounding cities and beyond is quoted separately.</p>
         </details>
       </div>
     </section>
@@ -155,7 +188,7 @@
       <div class="footer-cols">
         <div>
           <p class="footer-brand">Alternate <em>Exposures</em></p>
-          <p class="muted" style="margin: 0;">Photography by Bryson Glass<br>Based in Atlanta, Georgia</p>
+          <p class="muted" style="margin: 0;">Photo &amp; video by Bryson Glass<br>For artists and brands in Atlanta, GA</p>
         </div>
         <div>
           <h4 class="eyebrow">Pages</h4>
@@ -169,8 +202,8 @@
           <h4 class="eyebrow">Follow</h4>
           <ul>
             <li><a href="#">Instagram</a></li>
-            <li><a href="#">Facebook</a></li>
             <li><a href="#">TikTok</a></li>
+            <li><a href="#">YouTube</a></li>
           </ul>
         </div>
         <div>
@@ -183,7 +216,7 @@
       </div>
       <div class="footer-base eyebrow">
         <span>© <span data-year>2026</span> Alternate Exposures</span>
-        <span>All images © Bryson Glass</span>
+        <span>All photos &amp; video © Bryson Glass</span>
       </div>
     </div>
   </footer>

@@ -61,12 +61,24 @@
     function render() {
       var list = visibleItems();
       var item = list[current];
-      var media = item.querySelector(".ph, img").cloneNode(true);
+      var thumb = item.querySelector(".ph, img");
+      var media;
+      if (item.dataset.video) {
+        // Music videos / clips: play the YouTube or Vimeo embed
+        media = document.createElement("iframe");
+        media.src = item.dataset.video;
+        media.title = item.dataset.title;
+        media.allow = "autoplay; encrypted-media; picture-in-picture; fullscreen";
+        media.allowFullscreen = true;
+        media.style.setProperty("--ratio", thumb.style.getPropertyValue("--ratio") || "16 / 9");
+      } else {
+        media = thumb.cloneNode(true);
+      }
       stage.innerHTML = "";
       stage.appendChild(media);
       fit();
-      var cat = item.dataset.category;
-      titleEl.textContent = item.dataset.title + " — " + cat.charAt(0).toUpperCase() + cat.slice(1);
+      var label = item.querySelector(".cap .eyebrow");
+      titleEl.textContent = item.dataset.title + (label ? " — " + label.textContent : "");
       countLb.textContent = pad(current + 1) + " / " + pad(list.length);
     }
 
@@ -98,6 +110,7 @@
     function close() {
       lb.classList.remove("open");
       lb.hidden = true;
+      stage.innerHTML = ""; // stops any playing video
       document.body.style.overflow = "";
       if (lastFocus) lastFocus.focus();
     }
@@ -135,11 +148,15 @@
      ------------------------------------------------------------------ */
   var form = document.getElementById("contact-form");
   if (form) {
-    // Preselect session type from ?session=... (linked from pricing cards)
+    // Preselect the project from ?project=... (linked from the services menu)
     var params = new URLSearchParams(location.search);
-    var session = params.get("session");
-    var select = form.querySelector("#session");
-    if (session && select.querySelector('option[value="' + session + '"]')) select.value = session;
+    var project = params.get("project");
+    var projectSelect = form.querySelector("#project");
+    if (project && projectSelect.querySelector('option[value="' + project + '"]')) {
+      projectSelect.value = project;
+      var role = { musicvideo: "artist", artist: "artist", merch: "brand", lookbook: "brand" }[project];
+      if (role) form.querySelector("#role").value = role;
+    }
 
     function validateField(input) {
       var field = input.closest(".field");
