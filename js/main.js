@@ -420,4 +420,55 @@
       });
     });
   }
+
+  /* ------------------------------------------------------------------
+     Contact form
+     ------------------------------------------------------------------ */
+  var form = document.getElementById("contact-form");
+  if (form) {
+    // Preselect the project from ?project=... (linked from the services menu)
+    var params = new URLSearchParams(location.search);
+    var project = params.get("project");
+    var projectSelect = form.querySelector("#project");
+    if (project && projectSelect.querySelector('option[value="' + project + '"]')) {
+      projectSelect.value = project;
+      var role = { musicvideo: "artist", artist: "artist", merch: "brand", lookbook: "brand" }[project];
+      if (role) form.querySelector("#role").value = role;
+    }
+
+    var validateField = function (input) {
+      var field = input.closest(".field");
+      var ok = input.checkValidity() && (!input.required || input.value.trim() !== "");
+      field.classList.toggle("invalid", !ok);
+      return ok;
+    };
+
+    form.querySelectorAll("[required]").forEach(function (input) {
+      input.addEventListener("blur", function () { validateField(input); });
+      input.addEventListener("input", function () {
+        if (input.closest(".field").classList.contains("invalid")) validateField(input);
+      });
+    });
+
+    form.addEventListener("submit", function (e) {
+      var required = Array.prototype.slice.call(form.querySelectorAll("[required]"));
+      var results = required.map(validateField);
+      var firstBad = required[results.indexOf(false)];
+      if (firstBad) {
+        e.preventDefault();
+        firstBad.focus();
+        return;
+      }
+      if (form.hasAttribute("data-demo")) {
+        // The form isn't connected to a mail service yet: don't pretend it sent.
+        e.preventDefault();
+        var status = form.querySelector(".form-status");
+        status.innerHTML = "<b>This form isn't switched on yet.</b> Nothing was sent — please email " +
+          "<a href=\"mailto:bryson@alternateexposures.com\">bryson@alternateexposures.com</a> or call/text " +
+          "<a href=\"tel:+14049902752\">404-990-2752</a> and you'll get a reply within 24 hours.";
+        status.classList.add("show");
+        status.scrollIntoView({ block: "nearest" });
+      }
+    });
+  }
 })();

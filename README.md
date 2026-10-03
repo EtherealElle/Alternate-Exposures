@@ -63,17 +63,15 @@ Then visit http://localhost:8080.
 ## Still to fill in
 
 **Blocking launch**
-- **Email and phone:** replace `hello@example.com` and `(000) 000-0000` in `index.html`, `gallery.html`,
-  `contact.html`, `privacy.html` and `404.html`.
 - **Contact form:** it validates but sends nothing. See the comment above the `<form>` tag in
   `contact.html` — sign up at Formspree, paste the URL into `action`, add `method="post"`, delete
   `data-demo`.
 - **Gallery:** add work through Pages CMS (see above).
 - **Copy placeholders:** the music-video caption and bio in `index.html`, "Now booking [Season, Year]",
-  the "[24–48] hours" reply time in `contact.html`, and the crew FAQ marked `[Placeholder]`.
+  and the crew FAQ marked `[Placeholder]` in `contact.html`.
 - **Photos:** the homepage cover image (`index.html`) and the photo of Bryson (`contact.html`) are still
   grey placeholders.
-- **Social links:** the TikTok and YouTube links in every footer still point at `#`.
+- **Social links:** the TikTok link in every footer still points at `#` (Instagram and YouTube are done).
 
 **Nice to have**
 - Analytics (none installed; the privacy page says so, update it if that changes).
