@@ -464,7 +464,7 @@
         e.preventDefault();
         var status = form.querySelector(".form-status");
         status.innerHTML = "<b>This form isn't switched on yet.</b> Nothing was sent — please email " +
-          "<a href=\"mailto:bryson@alternateexposures.com\">bryson@alternateexposures.com</a> or call/text " +
+          "<a href=\"mailto:alternateexposures@gmail.com\">alternateexposures@gmail.com</a> or call/text " +
           "<a href=\"tel:+14049902752\">404-990-2752</a> and you'll get a reply within 24 hours.";
         status.classList.add("show");
         status.scrollIntoView({ block: "nearest" });
