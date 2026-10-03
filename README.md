@@ -46,14 +46,48 @@ Then visit http://localhost:8080.
 
 ## Still to fill in
 
-- **Email and phone:** replace `hello@example.com` and `(000) 000-0000` in all three HTML files.
-- **Bracketed text:** `[Artist]`, `[Brand]`, `[Song Title]`, `[#]`, `[@handle]` and the bio line in the About section.
+**Blocking launch**
+- **Email and phone:** replace `hello@example.com` and `(000) 000-0000` in `index.html`, `gallery.html`,
+  `contact.html`, `privacy.html` and `404.html`.
+- **Contact form:** it validates but sends nothing. See the comment above the `<form>` tag in
+  `contact.html` — sign up at Formspree, paste the URL into `action`, add `method="post"`, delete
+  `data-demo`.
 - **Gallery:** add work through Pages CMS (see above).
-- **Home page cover image:** the large image beside the headline is still a placeholder in `index.html`.
-- **Photo of Bryson:** the image on the contact page is still a placeholder in `contact.html`.
-- **Contact form:** it validates but doesn't send yet. Point the form's `action` at a form service (Formspree, Netlify Forms, Basin) and remove the `data-demo` attribute.
-- **Social links:** the TikTok and YouTube links in the footer (Instagram is done).
+- **Copy placeholders:** the music-video caption and bio in `index.html`, "Now booking [Season, Year]",
+  the "[24–48] hours" reply time in `contact.html`, and the crew FAQ marked `[Placeholder]`.
+- **Photos:** the homepage cover image (`index.html`) and the photo of Bryson (`contact.html`) are still
+  grey placeholders.
+- **Social links:** the TikTok and YouTube links in every footer still point at `#`.
+
+**Nice to have**
+- Analytics (none installed; the privacy page says so, update it if that changes).
+- Decide how the "first 10 clients" intro offer gets tracked, or swap it for an end date.
+
+## Brand images
+
+`images/share-card.png` (link previews) and `images/apple-touch-icon.png` (iOS home screen) are generated
+by `.github/scripts/make_brand_images.py`. Re-run it only if the wordmark changes:
+
+```bash
+python .github/scripts/make_brand_images.py . <font-cache-dir>
+```
 
 ## Publishing with GitHub Pages
 
-In the repository on GitHub, go to **Settings → Pages** and set **Source** to **GitHub Actions**. Every push to `main` (including saves from Pages CMS) then runs `.github/workflows/deploy.yml`, which shrinks any new photos and publishes the site. Progress shows under the repository's **Actions** tab. The site is live at `https://<username>.github.io/<repository-name>/`.
+In the repository on GitHub, **Settings → Pages → Source** is set to **GitHub Actions**. Every push to
+`main` (including saves from Pages CMS) runs `.github/workflows/deploy.yml`, which shrinks any new photos
+and publishes the site. Progress shows under the repository's **Actions** tab.
+
+### Custom domain (alternateexposures.com)
+
+Share tags, the sitemap and the business details already use `https://alternateexposures.com`. To make it
+live:
+
+1. At the domain registrar, add four **A** records for the bare domain pointing to `185.199.108.153`,
+   `185.199.109.153`, `185.199.110.153` and `185.199.111.153`, plus a **CNAME** record for `www` pointing
+   to `etherealelle.github.io`.
+2. In **Settings → Pages → Custom domain**, enter `alternateexposures.com` and save.
+3. Once the DNS check passes, tick **Enforce HTTPS**.
+
+Because this site deploys through a GitHub Actions workflow, no `CNAME` file is needed in the repository —
+GitHub stores the domain in the Pages settings.

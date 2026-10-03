@@ -5,6 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Contact — Alternate Exposures · Book a Music Video or Merch Shoot in Atlanta</title>
   <meta name="description" content="Book a music video, cover art shoot, merch drop or lookbook in Atlanta with Bryson Glass at Alternate Exposures.">
+  <link rel="canonical" href="https://alternateexposures.com/contact.html">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+
+  <!-- Link previews (Instagram DMs, iMessage, X, Facebook) -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Alternate Exposures">
+  <meta property="og:title" content="Book a Shoot — Alternate Exposures">
+  <meta property="og:description" content="Book a music video, cover art shoot, merch drop or lookbook in Atlanta with Bryson Glass at Alternate Exposures.">
+  <meta property="og:url" content="https://alternateexposures.com/contact.html">
+  <meta property="og:image" content="https://alternateexposures.com/images/share-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Alternate Exposures — photo and video, Atlanta">
+  <meta name="twitter:card" content="summary_large_image">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
@@ -51,10 +67,13 @@
         </aside>
 
         <!--
-          FORM HOOKUP
-          This form validates in the browser but doesn't send anywhere yet.
-          To make it deliver email, set the form's action to a form service
-          (e.g. Formspree / Netlify Forms / Basin) and remove data-demo.
+          TURNING THE FORM ON  (it validates but sends nothing until you do this)
+          1. Sign up at https://formspree.io and create a form; it gives you a URL
+             like https://formspree.io/f/abcdwxyz
+          2. On the <form> tag below: add action="that URL" and method="post",
+             then delete the data-demo attribute.
+          That's it — messages then arrive at the email on the Formspree account.
+          The hidden "_gotcha" field below is a spam trap; leave it alone.
         -->
         <form class="form" id="contact-form" novalidate data-demo>
           <span class="eyebrow">Booking form</span>
@@ -134,6 +153,9 @@
             </div>
           </div>
 
+          <!-- Spam trap: real people never see or fill this -->
+          <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
+
           <div class="form-actions">
             <span class="muted" style="font-size: 14px;">Your details are only used to reply to you.</span>
             <button class="btn" type="submit">Send it</button>
@@ -197,6 +219,7 @@
             <li><a href="index.html">Home</a></li>
             <li><a href="gallery.html">Gallery</a></li>
             <li><a href="contact.html">Contact</a></li>
+            <li><a href="privacy.html">Privacy</a></li>
           </ul>
         </div>
         <div>
