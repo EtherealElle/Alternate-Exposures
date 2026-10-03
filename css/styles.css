@@ -277,47 +277,86 @@ em, .ital { font-family: var(--serif); font-style: italic; }
 }
 
 /* --------------------------------------------------------------------------
-   Home: hero (cover)
+   Home: hero with silent background video
    -------------------------------------------------------------------------- */
-.cover {
-  display: grid;
-  grid-template-columns: 5fr 7fr;
-  gap: clamp(32px, 5vw, 80px);
-  align-items: end;
-  padding-top: clamp(40px, 7vw, 100px);
-  padding-bottom: clamp(56px, 8vw, 120px);
+.hero {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  min-height: min(82vh, 820px);
+  overflow: hidden;
+  background: #0c0b0a;
+  color: var(--paper);
 }
 
-.cover h1 {
-  margin: 20px 0 28px;
+.hero-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* poster/video sit behind the scrim */
+  z-index: 0;
+}
+
+/* Scrim: keeps the type readable over any frame of the video */
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    linear-gradient(to top, rgba(12, 11, 10, 0.82) 0%, rgba(12, 11, 10, 0.62) 45%, rgba(12, 11, 10, 0.5) 100%);
+}
+
+.hero-inner {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  padding-top: clamp(80px, 14vh, 160px);
+  padding-bottom: clamp(40px, 7vh, 80px);
+}
+
+.hero .eyebrow { color: #cfc6ba; }
+
+.hero h1 {
+  margin: 18px 0 24px;
+  max-width: 14ch;
   font-family: var(--serif);
-  font-size: clamp(60px, 9vw, 140px);
+  font-size: clamp(54px, 8.5vw, 124px);
   font-weight: 400;
-  line-height: 0.9;
+  line-height: 0.92;
   letter-spacing: -0.025em;
+  text-shadow: 0 2px 30px rgba(0, 0, 0, 0.35);
 }
-.cover h1 em { display: block; color: var(--accent); padding-left: 0.6em; }
+.hero h1 em { display: block; color: #e2a994; padding-left: 0.5em; }
 
-.cover .dek {
-  max-width: 36ch;
+.hero .dek {
+  max-width: 46ch;
   margin: 0 0 36px;
   font-family: var(--serif);
-  font-size: clamp(20px, 1.8vw, 24px);
+  font-size: clamp(19px, 1.8vw, 24px);
   line-height: 1.4;
-  color: var(--ink-2);
+  color: rgba(246, 242, 235, 0.92);
 }
 
 .cover-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 28px; }
 
-.cover .fig .ph { aspect-ratio: 4 / 5; }
+.hero .btn { background: var(--paper); color: var(--ink); border-color: var(--paper); }
+.hero .btn:hover { background: var(--accent); border-color: var(--accent); color: var(--paper); }
+.hero .link { color: var(--paper); border-color: rgba(246, 242, 235, 0.5); }
+.hero .link:hover { color: #e2a994; border-color: #e2a994; }
+
+@media (max-width: 600px) {
+  .hero { min-height: min(86vh, 700px); }
+}
 
 .cover-index {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  margin-top: clamp(40px, 5vw, 64px);
-  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
 }
-.cover-index div { padding: 16px 0 0; }
+.cover-index div { padding: 20px 0; }
 .cover-index b {
   display: block;
   margin-top: 4px;
@@ -326,10 +365,14 @@ em, .ital { font-family: var(--serif); font-style: italic; }
   font-weight: 500;
 }
 
-@media (max-width: 900px) {
-  .cover { grid-template-columns: 1fr; }
-  .cover .fig .ph { aspect-ratio: 4 / 3; }
+@media (max-width: 560px) {
+  .cover-index { grid-template-columns: 1fr 1fr; gap: 0 16px; }
+  .cover-index div:last-child { grid-column: 1 / -1; border-top: 1px solid var(--rule); }
 }
+
+/* With reduced motion (or Data Saver) no video source is attached at all —
+   the <video> element still paints its poster frame, so the hero looks the same,
+   just still. See js/main.js. */
 
 /* --------------------------------------------------------------------------
    Home: about / letter

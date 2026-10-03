@@ -7,3 +7,6 @@ desktop.ini
 .vscode/
 .idea/
 .claude/
+
+# Original camera files: keep out of the repo (web versions live in videos/)
+videos/source/

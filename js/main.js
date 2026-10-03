@@ -8,6 +8,53 @@
   });
 
   /* ------------------------------------------------------------------
+     Hero background video (silent, looping)
+     The source is attached here rather than in the HTML so we can pick the
+     right file for the screen, and skip it entirely for visitors on Data
+     Saver or who prefer reduced motion — they see the poster frame instead.
+     ------------------------------------------------------------------ */
+  var heroVideo = document.querySelector("[data-hero-video]");
+  if (heroVideo) {
+    var conn = navigator.connection || {};
+    var saveData = conn.saveData === true;
+    var slowNetwork = /^(slow-)?2g$/.test(conn.effectiveType || "");
+    var reducedMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (!saveData && !slowNetwork && !reducedMotion) {
+      // Widest reliable measure: the window may not be laid out yet this early,
+      // so fall back to the screen size before deciding this is a phone.
+      var viewportWidth = Math.max(
+        window.innerWidth || 0,
+        document.documentElement.clientWidth || 0,
+        (window.screen && window.screen.width) || 0
+      );
+      var narrow = viewportWidth <= 800;
+      heroVideo.src = narrow ? heroVideo.dataset.srcNarrow : heroVideo.dataset.srcWide;
+      heroVideo.muted = true; // belt and braces: iOS only autoplays muted video
+      heroVideo.setAttribute("muted", "");
+      heroVideo.autoplay = true;
+      heroVideo.preload = "auto";
+      heroVideo.load();
+      var tryPlay = function () {
+        var p = heroVideo.play();
+        if (p && p.catch) p.catch(function () { /* autoplay blocked: poster stays */ });
+      };
+      tryPlay();
+      heroVideo.addEventListener("canplay", tryPlay, { once: true });
+
+      // Stop decoding once the hero is scrolled past; resume when it's back
+      if ("IntersectionObserver" in window) {
+        new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) tryPlay();
+            else heroVideo.pause();
+          });
+        }, { threshold: 0.05 }).observe(heroVideo);
+      }
+    }
+  }
+
+  /* ------------------------------------------------------------------
      Project data
      Projects are edited in Pages CMS, which saves them to
      data/projects.json: a list of

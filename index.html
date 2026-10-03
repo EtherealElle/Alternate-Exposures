@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Alternate Exposures — Atlanta Music Video &amp; Brand Content by Bryson Glass</title>
   <meta name="description" content="Music videos, cover art and press shots for Atlanta artists. Merch drop content, lookbooks and campaigns for Atlanta clothing brands. Photo and video by Bryson Glass.">
+  <link rel="preload" as="image" href="images/hero-poster.jpg" fetchpriority="high">
   <link rel="canonical" href="https://alternateexposures.com/">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
@@ -150,8 +151,17 @@
 
   <main id="main">
     <!-- Cover -->
-    <section class="container cover">
-      <div>
+    <!--
+      Hero video: silent, looping background. js/main.js attaches the source so
+      phones get the smaller file, and skips it entirely on Data Saver or when
+      the visitor prefers reduced motion (the poster frame shows instead).
+      To swap the clip, re-encode with .github/scripts/make_hero_video.sh.
+    -->
+    <section class="hero">
+      <video class="hero-video" data-hero-video poster="images/hero-poster.jpg"
+             muted loop playsinline preload="metadata" aria-hidden="true" tabindex="-1"
+             data-src-wide="videos/hero.mp4" data-src-narrow="videos/hero-small.mp4"></video>
+      <div class="container hero-inner">
         <span class="eyebrow">Music videos · Artist visuals · Merch drops · Lookbooks</span>
         <h1>Made in Atlanta. <em>Built to drop.</em></h1>
         <p class="dek">Music videos and cover art for artists. Launch content and lookbooks for clothing brands. Shot on location, delivered before your release date.</p>
@@ -159,17 +169,16 @@
           <a class="btn" href="contact.html">Book a shoot</a>
           <a class="link" href="gallery.html">See the work <span aria-hidden="true">→</span></a>
         </div>
-        <div class="cover-index">
-          <div><span class="eyebrow">Based in</span><b>Atlanta, GA</b></div>
-          <div><span class="eyebrow">Working with</span><b>Artists &amp; brands</b></div>
-          <div><span class="eyebrow">Shooting</span><b>Photo &amp; video</b></div>
-        </div>
       </div>
-      <figure class="fig">
-        <div class="ph t5" role="img" aria-label="Featured music video still placeholder" data-label="Featured video still"></div>
-        <figcaption><em>[Artist] — “[Song Title]”, music video still</em><span class="eyebrow">Fig. 01</span></figcaption>
-      </figure>
     </section>
+
+    <div class="container">
+      <div class="cover-index">
+        <div><span class="eyebrow">Based in</span><b>Atlanta, GA</b></div>
+        <div><span class="eyebrow">Working with</span><b>Artists &amp; brands</b></div>
+        <div><span class="eyebrow">Shooting</span><b>Photo &amp; video</b></div>
+      </div>
+    </div>
 
     <!-- About -->
     <section class="section" aria-labelledby="about-title">

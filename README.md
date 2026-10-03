@@ -73,13 +73,25 @@ Formspree pauses delivery, so keep an eye on the dashboard.
 - **Gallery:** add work through Pages CMS (see above).
 - **Copy placeholders:** the music-video caption and bio in `index.html`, "Now booking [Season, Year]",
   and the crew FAQ marked `[Placeholder]` in `contact.html`.
-- **Photos:** the homepage cover image (`index.html`) and the photo of Bryson (`contact.html`) are still
-  grey placeholders.
+- **Photo of Bryson:** the image on the contact page (`contact.html`) is still a grey placeholder.
 - **Social links:** the TikTok link in every footer still points at `#` (Instagram and YouTube are done).
 
 **Nice to have**
 - Analytics (none installed; the privacy page says so, update it if that changes).
 - Decide how the "first 10 clients" intro offer gets tracked, or swap it for an end date.
+
+## Hero video
+
+The home page opens with a silent, looping background video (`videos/hero.mp4` for desktop,
+`videos/hero-small.mp4` for phones, with `images/hero-poster.jpg` as the still shown first). `js/main.js`
+picks the file, and skips video entirely for visitors on Data Saver, a 2G connection, or with reduced
+motion turned on — they see the poster frame.
+
+To swap the clip, drop the original in `videos/source/` (git-ignored) and run:
+
+```bash
+bash .github/scripts/make_hero_video.sh "videos/source/Your Clip.mp4"
+```
 
 ## Brand images
 
