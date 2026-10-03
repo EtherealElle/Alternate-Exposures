@@ -8,16 +8,17 @@
   });
 
   /* ------------------------------------------------------------------
-     Gallery data
-     The gallery is edited in Pages CMS, which saves it to data/gallery.json
-     (a list of { image, title, category, video, featured }).
+     Project data
+     Projects are edited in Pages CMS, which saves them to
+     data/projects.json: a list of
+     { name, client, category, date, cover, description, videos[], photos[], featured }
      ------------------------------------------------------------------ */
   var CATEGORY_LABELS = {
     musicvideo: "Music video",
     artist: "Artist visuals",
-    merch: "Merch",
+    merch: "Merch drop",
     lookbook: "Lookbook",
-    live: "Live"
+    live: "Live show"
   };
 
   // Paths are saved as "/images/gallery/x.jpg". Strip the leading slash so
@@ -39,73 +40,215 @@
     return "";
   }
 
-  var galleryData = null;
-  function loadGallery() {
-    if (!galleryData) {
-      galleryData = fetch("data/gallery.json", { cache: "no-cache" })
+  // "Lil Example — 'Song Title'" -> "lil-example-song-title", used for #links
+  function slugify(text) {
+    return String(text || "")
+      .toLowerCase()
+      .replace(/['’"]/g, "")
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "")
+      .slice(0, 60);
+  }
+
+  var projectData = null;
+  function loadProjects() {
+    if (!projectData) {
+      projectData = fetch("data/projects.json", { cache: "no-cache" })
         .then(function (r) { return r.ok ? r.json() : []; })
         .then(function (data) {
-          return (Array.isArray(data) ? data : []).filter(function (d) { return d && d.image; });
+          return (Array.isArray(data) ? data : [])
+            .filter(function (p) { return p && p.name && p.cover; })
+            .map(function (p) {
+              p.slug = slugify(p.name);
+              p.photos = [].concat(p.photos || []).filter(Boolean);
+              p.videos = [].concat(p.videos || []).filter(Boolean);
+              return p;
+            });
         })
         .catch(function () { return []; });
     }
-    return galleryData;
+    return projectData;
   }
 
   /* ------------------------------------------------------------------
-     Gallery page
+     Gallery page: a list of projects, each expanding in place
      ------------------------------------------------------------------ */
-  var galleryEl = document.querySelector("[data-gallery]");
-  if (galleryEl) {
-    loadGallery().then(function (entries) {
-      entries.forEach(function (entry) {
-        var label = CATEGORY_LABELS[entry.category] || "";
-        var btn = document.createElement("button");
-        btn.className = "g-item";
-        btn.dataset.category = entry.category || "";
-        btn.dataset.title = entry.title || "";
-        var video = embedUrl(entry.video);
-        if (video) btn.dataset.video = video;
-
-        var frame = document.createElement("span");
-        frame.className = "g-frame";
-        var img = document.createElement("img");
-        img.src = mediaPath(entry.image);
-        img.alt = entry.title || label;
-        img.loading = "lazy";
-        img.decoding = "async";
-        frame.appendChild(img);
-
-        var cap = document.createElement("span");
-        cap.className = "cap";
-        var em = document.createElement("em");
-        em.textContent = entry.title || "";
-        var tag = document.createElement("span");
-        tag.className = "eyebrow";
-        tag.textContent = label;
-        cap.appendChild(em);
-        cap.appendChild(tag);
-
-        btn.appendChild(frame);
-        btn.appendChild(cap);
-        galleryEl.appendChild(btn);
+  var projectsEl = document.querySelector("[data-projects]");
+  if (projectsEl) {
+    loadProjects().then(function (projects) {
+      projects.forEach(function (project, index) {
+        projectsEl.appendChild(buildProject(project, index));
       });
-
       var empty = document.querySelector("[data-gallery-empty]");
-      if (empty) empty.hidden = entries.length > 0;
-      initGallery(Array.prototype.slice.call(galleryEl.querySelectorAll(".g-item")));
+      if (empty) empty.hidden = projects.length > 0;
+      initProjects(Array.prototype.slice.call(projectsEl.querySelectorAll(".project")));
+      initLightbox(Array.prototype.slice.call(projectsEl.querySelectorAll(".g-item")));
+      openFromHash();
     });
   }
 
-  function initGallery(items) {
+  function mediaTile(opts) {
+    // One photo or video inside a project; shared shape with the lightbox
+    var btn = document.createElement("button");
+    btn.className = "g-item";
+    btn.type = "button";
+    btn.dataset.title = opts.title;
+    if (opts.video) btn.dataset.video = opts.video;
+
+    var frame = document.createElement("span");
+    frame.className = "g-frame";
+    var img = document.createElement("img");
+    img.src = opts.image;
+    img.alt = opts.alt;
+    img.loading = "lazy";
+    img.decoding = "async";
+    frame.appendChild(img);
+    btn.appendChild(frame);
+    return btn;
+  }
+
+  function buildProject(project, index) {
+    var label = CATEGORY_LABELS[project.category] || "";
+    var panelId = "project-" + project.slug;
+
+    var article = document.createElement("article");
+    article.className = "project";
+    article.id = project.slug;
+    article.dataset.category = project.category || "";
+
+    // --- Header: cover + name, the whole thing is the toggle
+    var head = document.createElement("button");
+    head.className = "project-head";
+    head.type = "button";
+    head.setAttribute("aria-expanded", "false");
+    head.setAttribute("aria-controls", panelId);
+
+    var cover = document.createElement("span");
+    cover.className = "project-cover";
+    var coverImg = document.createElement("img");
+    coverImg.src = mediaPath(project.cover);
+    coverImg.alt = "";
+    coverImg.loading = index < 4 ? "eager" : "lazy";
+    coverImg.decoding = "async";
+    cover.appendChild(coverImg);
+
+    var meta = document.createElement("span");
+    meta.className = "project-meta";
+    var kicker = document.createElement("span");
+    kicker.className = "eyebrow";
+    kicker.textContent = [label, project.date].filter(Boolean).join(" · ");
+    var title = document.createElement("span");
+    title.className = "project-name";
+    title.textContent = project.name;
+    meta.appendChild(kicker);
+    meta.appendChild(title);
+    if (project.client) {
+      var client = document.createElement("span");
+      client.className = "project-client";
+      client.textContent = project.client;
+      meta.appendChild(client);
+    }
+
+    var counts = [];
+    if (project.photos.length) counts.push(project.photos.length + (project.photos.length === 1 ? " photo" : " photos"));
+    if (project.videos.length) counts.push(project.videos.length + (project.videos.length === 1 ? " video" : " videos"));
+    var toggle = document.createElement("span");
+    toggle.className = "project-toggle eyebrow";
+    toggle.innerHTML = "<span data-toggle-text>View project</span> <span aria-hidden=\"true\">+</span>";
+    if (counts.length) {
+      var countEl = document.createElement("span");
+      countEl.className = "project-count eyebrow";
+      countEl.textContent = counts.join(" · ");
+      meta.appendChild(countEl);
+    }
+
+    head.appendChild(cover);
+    head.appendChild(meta);
+    head.appendChild(toggle);
+
+    // --- Panel: description + media
+    var panel = document.createElement("div");
+    panel.className = "project-panel";
+    panel.id = panelId;
+    panel.hidden = true;
+
+    if (project.description) {
+      var desc = document.createElement("div");
+      desc.className = "project-desc";
+      String(project.description).split(/\n{2,}/).forEach(function (para) {
+        if (!para.trim()) return;
+        var p = document.createElement("p");
+        p.textContent = para.trim();
+        desc.appendChild(p);
+      });
+      panel.appendChild(desc);
+    }
+
+    var grid = document.createElement("div");
+    grid.className = "project-media";
+
+    project.videos.forEach(function (link, i) {
+      var embed = embedUrl(link);
+      if (!embed) return;
+      grid.appendChild(mediaTile({
+        title: project.name + (project.videos.length > 1 ? " — video " + (i + 1) : ""),
+        video: embed,
+        image: mediaPath(project.cover),
+        alt: "Play video: " + project.name
+      }));
+    });
+
+    project.photos.forEach(function (photo, i) {
+      grid.appendChild(mediaTile({
+        title: project.name + " — " + (i + 1) + " of " + project.photos.length,
+        image: mediaPath(photo),
+        alt: project.name + ", photograph " + (i + 1)
+      }));
+    });
+
+    panel.appendChild(grid);
+
+    var permalink = document.createElement("a");
+    permalink.className = "link project-link";
+    permalink.href = "#" + project.slug;
+    permalink.textContent = "Link to this project";
+    panel.appendChild(permalink);
+
+    article.appendChild(head);
+    article.appendChild(panel);
+    return article;
+  }
+
+  function setExpanded(article, open) {
+    var head = article.querySelector(".project-head");
+    var panel = article.querySelector(".project-panel");
+    head.setAttribute("aria-expanded", String(open));
+    panel.hidden = !open;
+    article.classList.toggle("open", open);
+    var text = head.querySelector("[data-toggle-text]");
+    if (text) text.textContent = open ? "Close" : "View project";
+    var sign = head.querySelector(".project-toggle span[aria-hidden]");
+    if (sign) sign.textContent = open ? "−" : "+";
+  }
+
+  function initProjects(articles) {
     var filterBtns = document.querySelectorAll(".filter-btn");
     var countEl = document.querySelector("[data-count]");
 
+    articles.forEach(function (article) {
+      article.querySelector(".project-head").addEventListener("click", function () {
+        var open = article.classList.contains("open");
+        setExpanded(article, !open);
+        if (!open) history.replaceState(null, "", "#" + article.id);
+      });
+    });
+
     function applyFilter(filter) {
       var shown = 0;
-      items.forEach(function (item) {
-        var match = filter === "all" || item.dataset.category === filter;
-        item.hidden = !match;
+      articles.forEach(function (article) {
+        var match = filter === "all" || article.dataset.category === filter;
+        article.hidden = !match;
+        if (!match) setExpanded(article, false);
         if (match) shown++;
       });
       filterBtns.forEach(function (btn) {
@@ -120,13 +263,22 @@
         history.replaceState(null, "", btn.dataset.filter === "all" ? location.pathname : "#" + btn.dataset.filter);
       });
     });
-    // Deep links like gallery.html#merch
-    var hash = location.hash.slice(1);
-    var valid = Array.prototype.some.call(filterBtns, function (b) { return b.dataset.filter === hash; });
-    applyFilter(hash && valid ? hash : "all");
 
-    initLightbox(items);
+    var hash = location.hash.slice(1);
+    var isCategory = Array.prototype.some.call(filterBtns, function (b) { return b.dataset.filter === hash; });
+    applyFilter(hash && isCategory ? hash : "all");
   }
+
+  // gallery.html#project-slug opens that project directly (shareable link)
+  function openFromHash() {
+    var hash = location.hash.slice(1);
+    if (!hash) return;
+    var article = document.getElementById(hash);
+    if (!article || !article.classList.contains("project")) return;
+    setExpanded(article, true);
+    article.scrollIntoView({ block: "start" });
+  }
+  window.addEventListener("hashchange", openFromHash);
 
   /* ------------------------------------------------------------------
      Gallery: lightbox
@@ -142,7 +294,10 @@
     var lastFocus = null;
 
     function visibleItems() {
-      return items.filter(function (i) { return !i.hidden; });
+      return items.filter(function (i) {
+        var panel = i.closest(".project-panel");
+        return !i.hidden && !(panel && panel.hidden);
+      });
     }
 
     function pad(n) { return String(n).padStart(2, "0"); }
@@ -242,77 +397,27 @@
   }
 
   /* ------------------------------------------------------------------
-     Home page: "Selected work" uses entries marked "Show on homepage",
-     topped up with other entries in gallery order. With no entries yet,
-     the placeholder tiles stay as they are.
+     Home page: "Selected work" uses projects marked "Show on homepage",
+     topped up with the newest other projects. With no projects yet, the
+     placeholder tiles stay as they are.
      ------------------------------------------------------------------ */
   var slots = Array.prototype.slice.call(document.querySelectorAll("[data-work-slot]"));
   if (slots.length) {
-    loadGallery().then(function (entries) {
-      var featured = entries.filter(function (e) { return e.featured; });
-      var rest = entries.filter(function (e) { return !e.featured; });
+    loadProjects().then(function (projects) {
+      var featured = projects.filter(function (p) { return p.featured; });
+      var rest = projects.filter(function (p) { return !p.featured; });
       var picks = featured.concat(rest).slice(0, slots.length);
-      picks.forEach(function (entry, i) {
+      picks.forEach(function (project, i) {
         var slot = slots[i];
         var ph = slot.querySelector(".ph");
-        ph.style.backgroundImage = 'url("' + mediaPath(entry.image).replace(/"/g, "%22") + '")';
+        ph.style.backgroundImage = 'url("' + mediaPath(project.cover).replace(/"/g, "%22") + '")';
         ph.classList.add("has-img");
-        ph.setAttribute("aria-label", entry.title || "");
-        slot.href = "gallery.html" + (entry.category ? "#" + entry.category : "");
-        slot.querySelector("figcaption em").textContent = entry.title || "";
+        ph.setAttribute("aria-label", project.name || "");
+        slot.href = "gallery.html#" + project.slug;
+        slot.querySelector("figcaption em").textContent = project.name || "";
         var tag = slot.querySelector("figcaption .eyebrow");
-        tag.textContent = CATEGORY_LABELS[entry.category] || tag.textContent;
+        tag.textContent = CATEGORY_LABELS[project.category] || tag.textContent;
       });
-    });
-  }
-
-  /* ------------------------------------------------------------------
-     Contact form
-     ------------------------------------------------------------------ */
-  var form = document.getElementById("contact-form");
-  if (form) {
-    // Preselect the project from ?project=... (linked from the services menu)
-    var params = new URLSearchParams(location.search);
-    var project = params.get("project");
-    var projectSelect = form.querySelector("#project");
-    if (project && projectSelect.querySelector('option[value="' + project + '"]')) {
-      projectSelect.value = project;
-      var role = { musicvideo: "artist", artist: "artist", merch: "brand", lookbook: "brand" }[project];
-      if (role) form.querySelector("#role").value = role;
-    }
-
-    function validateField(input) {
-      var field = input.closest(".field");
-      var ok = input.checkValidity() && (!input.required || input.value.trim() !== "");
-      field.classList.toggle("invalid", !ok);
-      return ok;
-    }
-
-    form.querySelectorAll("[required]").forEach(function (input) {
-      input.addEventListener("blur", function () { validateField(input); });
-      input.addEventListener("input", function () {
-        if (input.closest(".field").classList.contains("invalid")) validateField(input);
-      });
-    });
-
-    form.addEventListener("submit", function (e) {
-      var required = Array.prototype.slice.call(form.querySelectorAll("[required]"));
-      var results = required.map(validateField);
-      var firstBad = required[results.indexOf(false)];
-      if (firstBad) {
-        e.preventDefault();
-        firstBad.focus();
-        return;
-      }
-      if (form.hasAttribute("data-demo")) {
-        e.preventDefault();
-        var status = form.querySelector(".form-status");
-        var name = form.querySelector("#name").value.trim().split(" ")[0];
-        status.innerHTML = "<b>✓ Received.</b> Thanks, " + name.replace(/[<>&]/g, "") +
-          " — this is a preview, so nothing was sent yet. Once the form is connected, Bryson will reply by email.";
-        status.classList.add("show");
-        form.reset();
-      }
     });
   }
 })();

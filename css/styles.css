@@ -583,7 +583,7 @@ em, .ital { font-family: var(--serif); font-style: italic; }
 }
 
 /* --------------------------------------------------------------------------
-   Gallery
+   Gallery: list of projects
    -------------------------------------------------------------------------- */
 .filters {
   display: flex;
@@ -592,7 +592,7 @@ em, .ital { font-family: var(--serif); font-style: italic; }
   align-items: baseline;
   gap: 8px clamp(18px, 3vw, 36px);
   padding: 20px 0;
-  margin-bottom: clamp(32px, 5vw, 56px);
+  margin-bottom: clamp(24px, 4vw, 40px);
   border-top: 1px solid var(--rule);
   border-bottom: 1px solid var(--rule);
 }
@@ -611,18 +611,81 @@ em, .ital { font-family: var(--serif); font-style: italic; }
 .filter-btn[aria-pressed="true"] { color: var(--ink); font-style: italic; border-color: var(--accent); }
 .filters .count { flex-basis: 100%; text-align: center; margin-top: 4px; }
 
-.gallery {
-  columns: 3;
-  column-gap: clamp(20px, 3vw, 40px);
-}
-@media (max-width: 1000px) { .gallery { columns: 2; } }
-@media (max-width: 560px) { .gallery { columns: 1; } }
+.projects { border-top: 1px solid var(--rule-strong); }
 
+.project { border-bottom: 1px solid var(--rule); scroll-margin-top: 90px; }
+.project[hidden] { display: none; }
+
+.project-head {
+  display: grid;
+  grid-template-columns: clamp(120px, 16vw, 200px) 1fr auto;
+  align-items: center;
+  gap: clamp(16px, 3vw, 36px);
+  width: 100%;
+  padding: clamp(16px, 2vw, 24px) 0;
+  border: 0;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.project-head:hover { opacity: 0.72; }
+
+.project-cover { display: block; overflow: hidden; background: var(--paper-2); }
+.project-cover img {
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+.project-head:hover .project-cover img { transform: scale(1.03); }
+
+.project-meta { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.project-name {
+  font-family: var(--serif);
+  font-size: clamp(24px, 3vw, 38px);
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+}
+.project.open .project-name { color: var(--accent); }
+.project-client { font-size: 15px; color: var(--ink-2); }
+.project-count { color: var(--muted); }
+
+.project-toggle { display: flex; align-items: center; gap: 10px; white-space: nowrap; color: var(--muted); }
+.project-head:hover .project-toggle { color: var(--accent); }
+
+.project-panel { padding: 4px 0 clamp(32px, 4vw, 48px); }
+.project-panel[hidden] { display: none; }
+
+.project-desc {
+  max-width: 62ch;
+  margin: 0 0 clamp(24px, 3vw, 36px);
+  padding-left: clamp(0px, 16vw + 36px, 236px);
+}
+.project-desc p { margin: 0 0 1em; color: var(--ink-2); }
+.project-desc p:last-child { margin-bottom: 0; }
+
+.project-media {
+  columns: 3;
+  column-gap: clamp(14px, 2vw, 24px);
+}
+@media (max-width: 1000px) { .project-media { columns: 2; } }
+@media (max-width: 560px) { .project-media { columns: 1; } }
+
+.project-link { margin-top: clamp(20px, 3vw, 32px); }
+
+@media (max-width: 720px) {
+  .project-head { grid-template-columns: 96px 1fr; gap: 16px; }
+  .project-toggle { grid-column: 2; margin-top: 2px; }
+  .project-desc { padding-left: 0; }
+}
+
+/* Photo / video tiles inside a project */
 .g-item {
   break-inside: avoid;
   display: block;
   width: 100%;
-  margin: 0 0 clamp(28px, 4vw, 48px);
+  margin: 0 0 clamp(14px, 2vw, 24px);
   padding: 0;
   border: 0;
   background: none;
@@ -630,17 +693,32 @@ em, .ital { font-family: var(--serif); font-style: italic; }
   cursor: zoom-in;
 }
 .g-item[hidden] { display: none; }
-.g-item .ph { transition: filter 0.4s ease; }
-.g-item:hover .ph { filter: brightness(0.92); }
-.g-item .cap {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: 12px;
-  padding-top: 10px;
+.g-frame { position: relative; display: block; overflow: hidden; background: var(--paper-2); }
+.g-frame img { width: 100%; height: auto; transition: filter 0.4s ease, transform 0.6s ease; }
+.g-item:hover .g-frame img { filter: brightness(0.92); transform: scale(1.015); }
+.g-item[data-video] .g-frame::before {
+  content: "▶  Play";
+  position: absolute;
+  z-index: 1;
+  top: 12px;
+  left: 12px;
+  padding: 5px 10px;
+  background: rgba(28, 26, 23, 0.72);
+  color: var(--paper);
+  font-family: var(--sans);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
 }
-.g-item .cap em { font-size: 17px; color: var(--ink-2); }
-.g-item:hover .cap em { color: var(--accent); }
+
+.gallery-empty {
+  padding: clamp(40px, 8vw, 100px) 0 clamp(64px, 10vw, 140px);
+  text-align: center;
+}
+.gallery-empty[hidden] { display: none; }
+.gallery-empty .serif { margin: 0 0 6px; font-size: clamp(28px, 3vw, 40px); }
+.gallery-empty .muted { margin: 0 0 24px; }
 
 /* Lightbox */
 .lightbox {
@@ -824,34 +902,6 @@ em, .ital { font-family: var(--serif); font-style: italic; }
   font-size: 14px;
 }
 .intro-flag .eyebrow { display: block; margin-bottom: 2px; color: var(--accent); }
-
-/* Gallery tiles loaded from data/gallery.json */
-.g-frame { position: relative; display: block; overflow: hidden; background: var(--paper-2); }
-.g-frame img { width: 100%; height: auto; transition: filter 0.4s ease, transform 0.6s ease; }
-.g-item:hover .g-frame img { filter: brightness(0.92); transform: scale(1.015); }
-.g-item[data-video] .g-frame::before {
-  content: "▶  Video";
-  position: absolute;
-  z-index: 1;
-  top: 12px;
-  left: 12px;
-  padding: 5px 10px;
-  background: rgba(28, 26, 23, 0.72);
-  color: var(--paper);
-  font-family: var(--sans);
-  font-size: 10px;
-  font-weight: 500;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-}
-
-.gallery-empty {
-  padding: clamp(40px, 8vw, 100px) 0 clamp(64px, 10vw, 140px);
-  text-align: center;
-}
-.gallery-empty[hidden] { display: none; }
-.gallery-empty .serif { margin: 0 0 6px; font-size: clamp(28px, 3vw, 40px); }
-.gallery-empty .muted { margin: 0 0 24px; }
 
 /* Home "Selected work" tiles once real images are added */
 .ph.has-img { background-size: cover; background-position: center; }

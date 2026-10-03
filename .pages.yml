@@ -8,23 +8,22 @@ media:
   rename: safe
 
 content:
-  - name: gallery
-    label: Gallery
+  - name: projects
+    label: Projects
     type: file
-    path: data/gallery.json
+    path: data/projects.json
     format: json
     list: true
     fields:
-      - name: image
-        label: Photo
-        type: image
-        required: true
-        description: For a music video or clip, upload a still from it to use as the thumbnail. JPG, PNG or WebP only (iPhone HEIC photos need to be exported as JPG first).
-      - name: title
-        label: Title
+      - name: name
+        label: Project name
         type: string
         required: true
-        description: Shown under the photo, e.g. "Lil Example — 'Song Title'" or "Brand Name — Fall drop".
+        description: 'Shown in the gallery list, e.g. "Lil Example — ''Song Title''" or "Brand Name — Fall 2026".'
+      - name: client
+        label: Artist or brand
+        type: string
+        description: Optional. Shown under the project name.
       - name: category
         label: Category
         type: select
@@ -41,11 +40,32 @@ content:
               label: Lookbook / campaign
             - name: live
               label: Live show / event
-      - name: video
-        label: Video link (optional)
+      - name: date
+        label: When
         type: string
-        description: For music videos and clips, paste the YouTube or Vimeo link. Leave empty for photos.
+        description: Optional, e.g. "March 2026" or just "2026".
+      - name: cover
+        label: Cover photo
+        type: image
+        required: true
+        description: The one image that represents this project in the gallery list. For a music video, use a still from it.
+      - name: description
+        label: Description
+        type: text
+        description: A short paragraph about the project — the idea, the locations, what was delivered. Shown when someone opens the project.
+      - name: videos
+        label: Video links
+        type: string
+        list: true
+        description: Paste YouTube or Vimeo links (Shorts work too). Add one per video. Leave empty for photo-only projects.
+      - name: photos
+        label: Photos
+        type: image
+        options:
+          multiple:
+            max: 40
+        description: All the photos for this project. JPG, PNG or WebP only (iPhone HEIC photos need to be exported as JPG first).
       - name: featured
         label: Show on homepage
         type: boolean
-        description: Tick up to 3 pieces for the "Selected work" section on the home page.
+        description: Tick up to 3 projects for the "Selected work" section on the home page.

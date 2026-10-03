@@ -9,32 +9,48 @@ A static site (HTML, CSS and a little JavaScript) hosted on GitHub Pages. The ga
 | File | Page |
 | --- | --- |
 | `index.html` | Home: cover, about, selected work, services & rates, process |
-| `gallery.html` | Filterable gallery (music videos, artist visuals, merch, lookbooks, live) with a full-screen viewer that plays videos |
+| `gallery.html` | Project list, filterable by category; each project expands to show its description, photos and videos |
 | `contact.html` | Contact details, booking form, FAQ |
 
-Styles live in `css/styles.css` and scripts in `js/main.js`. Gallery entries are stored in `data/gallery.json` and uploaded photos in `images/gallery/`.
+Styles live in `css/styles.css` and scripts in `js/main.js`. Projects are stored in `data/projects.json` and uploaded photos in `images/gallery/`.
 
 ## Managing the gallery
 
-Everything in the gallery, and the three "Selected work" tiles on the home page, comes from Pages CMS.
+The gallery is a list of **projects**. Each project has its own name, description and set of photos and
+videos, and the three "Selected work" tiles on the home page come from the same place.
 
-1. Go to **https://app.pagescms.org** and sign in (GitHub account, or the email invite link for collaborators).
-2. Open the **Alternate-Exposures** repository, then **Gallery** in the sidebar.
-3. **To add work:** add a new entry to the list (the **+ Add** button), then fill in:
-   - **Photo:** upload the image. For a music video or clip, upload a still from it to use as the thumbnail.
-   - **Title:** e.g. *Lil Example — "Song Title"* or *Brand Name — Fall drop*.
-   - **Category:** Music video, Artist visuals, Merch drop, Lookbook / campaign, or Live show / event.
-   - **Video link:** for music videos and clips, paste the normal YouTube or Vimeo link (YouTube Shorts work too). Leave it empty for photos.
-   - **Show on homepage:** tick up to 3 pieces to feature in "Selected work" on the home page.
-4. **To remove work:** delete the entry. **To reorder:** entries appear on the site in the same order as the list.
+1. Go to **https://app.pagescms.org** and sign in (GitHub account, or the email invite link for
+   collaborators).
+2. Open the **Alternate-Exposures** repository, then **Projects** in the sidebar.
+3. **To add a project:** add an entry to the list (the **+ Add** button), then fill in:
+   - **Project name** — e.g. *Lil Example — "Night Shift"*. Shown in the gallery list.
+   - **Artist or brand** — optional, shown under the name.
+   - **Category** — Music video, Artist visuals, Merch drop, Lookbook / campaign, or Live show / event.
+   - **When** — optional, e.g. "March 2026".
+   - **Cover photo** — the single image that represents the project in the list. For a music video, use a
+     still from it.
+   - **Description** — a short paragraph about the project. Blank lines start new paragraphs.
+   - **Video links** — YouTube or Vimeo links, one per video (Shorts work too). Leave empty for photo-only
+     projects.
+   - **Photos** — every photo for the project, up to 40.
+   - **Show on homepage** — tick up to 3 projects for "Selected work".
+4. **To remove a project:** delete the entry. **To reorder:** projects appear on the site in the same order
+   as the list.
 5. Click **Save**. The live site updates in about 1–2 minutes.
 
-**About photo files**
-- Upload straight from your editing export. Anything larger than 2400 pixels on its longest side is shrunk automatically, and location/camera data is removed, so it's safe and fast to load.
-- Use JPG, PNG or WebP. iPhone HEIC photos need to be exported as JPG first.
-- Deleting a gallery entry doesn't delete the uploaded file. To clean up old files, use the **Media** section in Pages CMS.
+**How it looks to visitors:** the gallery lists the projects. Clicking one opens it in place, showing the
+description and all of its photos and videos; clicking any of those opens it full-screen. Each project also
+has its own link (e.g. `/gallery.html#lil-example-night-shift`) that opens it directly — handy for sending a
+client straight to their project.
 
-**Inviting Bryson (or anyone else):** in Pages CMS, open the repository's settings, find **Collaborators**, and invite them by email. They don't need a GitHub account.
+**About photo files**
+- Upload straight from your editing export. Anything larger than 2400 pixels on its longest side is shrunk
+  automatically, and location/camera data is removed, so it's safe and fast to load.
+- Use JPG, PNG or WebP. iPhone HEIC photos need to be exported as JPG first.
+- Deleting a project doesn't delete its uploaded files. To clean up, use the **Media** section in Pages CMS.
+
+**Inviting Bryson (or anyone else):** in Pages CMS, open the repository's settings, find **Collaborators**,
+and invite them by email. They don't need a GitHub account.
 
 ## Running locally
 
