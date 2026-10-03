@@ -450,6 +450,18 @@
       });
     });
 
+    var status = form.querySelector(".form-status");
+    var submitBtn = form.querySelector("button[type=submit]");
+
+    function showStatus(html) {
+      status.innerHTML = html;
+      status.classList.add("show");
+      status.scrollIntoView({ block: "nearest" });
+    }
+
+    var FALLBACK = "Please email <a href=\"mailto:alternateexposures@gmail.com\">alternateexposures@gmail.com</a>" +
+      " or call/text <a href=\"tel:+14049902752\">404-990-2752</a> instead — you'll get a reply within 24 hours.";
+
     form.addEventListener("submit", function (e) {
       var required = Array.prototype.slice.call(form.querySelectorAll("[required]"));
       var results = required.map(validateField);
@@ -459,16 +471,33 @@
         firstBad.focus();
         return;
       }
-      if (form.hasAttribute("data-demo")) {
-        // The form isn't connected to a mail service yet: don't pretend it sent.
-        e.preventDefault();
-        var status = form.querySelector(".form-status");
-        status.innerHTML = "<b>This form isn't switched on yet.</b> Nothing was sent — please email " +
-          "<a href=\"mailto:alternateexposures@gmail.com\">alternateexposures@gmail.com</a> or call/text " +
-          "<a href=\"tel:+14049902752\">404-990-2752</a> and you'll get a reply within 24 hours.";
-        status.classList.add("show");
-        status.scrollIntoView({ block: "nearest" });
-      }
+      if (!window.fetch || !form.action) return; // let the browser post it normally
+
+      // Send in the background so the visitor stays on the page
+      e.preventDefault();
+      submitBtn.disabled = true;
+      var original = submitBtn.textContent;
+      submitBtn.textContent = "Sending…";
+
+      fetch(form.action, {
+        method: "POST",
+        body: new FormData(form),
+        headers: { Accept: "application/json" }
+      }).then(function (res) {
+        if (res.ok) {
+          var name = form.querySelector("#name").value.trim().split(" ")[0];
+          form.reset();
+          showStatus("<b>Got it" + (name ? ", " + name.replace(/[<>&]/g, "") : "") + ".</b> " +
+            "Your message is on its way to Bryson — expect a reply within 24 hours.");
+        } else {
+          showStatus("<b>That didn't go through.</b> " + FALLBACK);
+        }
+      }).catch(function () {
+        showStatus("<b>That didn't go through.</b> " + FALLBACK);
+      }).then(function () {
+        submitBtn.disabled = false;
+        submitBtn.textContent = original;
+      });
     });
   }
 })();

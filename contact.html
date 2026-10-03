@@ -67,15 +67,13 @@
         </aside>
 
         <!--
-          TURNING THE FORM ON  (it validates but sends nothing until you do this)
-          1. Sign up at https://formspree.io and create a form; it gives you a URL
-             like https://formspree.io/f/abcdwxyz
-          2. On the <form> tag below: add action="that URL" and method="post",
-             then delete the data-demo attribute.
-          That's it — messages then arrive at the email on the Formspree account.
+          Messages are delivered by Formspree to the address on that account.
+          js/main.js submits in the background so the visitor stays on this page;
+          if that ever fails, it falls back to a plain form post.
           The hidden "_gotcha" field below is a spam trap; leave it alone.
         -->
-        <form class="form" id="contact-form" novalidate data-demo>
+        <form class="form" id="contact-form" novalidate
+              action="https://formspree.io/f/xoevgzvw" method="post">
           <span class="eyebrow">Booking form</span>
           <h2 class="h2">Book a <em>shoot</em></h2>
           <p>Fields marked <span style="color: var(--accent);">*</span> are required.</p>
@@ -155,6 +153,7 @@
 
           <!-- Spam trap: real people never see or fill this -->
           <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
+          <input type="hidden" name="_subject" value="New booking inquiry — alternateexposures.com">
 
           <div class="form-actions">
             <span class="muted" style="font-size: 14px;">Your details are only used to reply to you.</span>

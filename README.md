@@ -60,12 +60,16 @@ python -m http.server 8080
 
 Then visit http://localhost:8080.
 
+## Contact form
+
+Messages go to Formspree (`https://formspree.io/f/xoevgzvw`) and are emailed on from there.
+`js/main.js` posts in the background so the visitor stays on the page, showing a confirmation on success
+and the email/phone as a fallback if the request fails. Free plan: 50 messages a month — if that's ever hit,
+Formspree pauses delivery, so keep an eye on the dashboard.
+
 ## Still to fill in
 
 **Blocking launch**
-- **Contact form:** it validates but sends nothing. See the comment above the `<form>` tag in
-  `contact.html` — sign up at Formspree, paste the URL into `action`, add `method="post"`, delete
-  `data-demo`.
 - **Gallery:** add work through Pages CMS (see above).
 - **Copy placeholders:** the music-video caption and bio in `index.html`, "Now booking [Season, Year]",
   and the crew FAQ marked `[Placeholder]` in `contact.html`.
