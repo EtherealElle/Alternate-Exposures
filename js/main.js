@@ -8,6 +8,167 @@
   });
 
   /* ------------------------------------------------------------------
+     Motion
+     Scroll reveals, the condensing masthead, photo fade-ins and the
+     scroll cue. All of it is skipped when the visitor prefers reduced
+     motion — the CSS holds everything in its finished state.
+     ------------------------------------------------------------------ */
+  var prefersReducedMotion = window.matchMedia &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // Elements that rise into view as you scroll. Picked by selector so new
+  // markup is covered without touching the HTML.
+  var REVEAL_SELECTORS = [
+    ".letter > *",
+    ".section-head",
+    ".spread .fig",
+    ".rates-intro",
+    ".rate",
+    ".process li",
+    ".closing .container > *",
+    ".cover-index div",
+    ".page-head > *",
+    ".filters",
+    ".project",
+    ".details li",
+    ".contact .fig",
+    ".form > *",
+    ".faq details",
+    ".gallery-empty > *",
+    ".footer-cols > div",
+    ".footer-base"
+  ];
+
+  function initReveals() {
+    var nodes = [];
+    REVEAL_SELECTORS.forEach(function (sel) {
+      Array.prototype.forEach.call(document.querySelectorAll(sel), function (el) {
+        // Skip anything invisible by design, e.g. the form's hidden spam trap
+        if (el.matches('input, [aria-hidden="true"], [hidden]')) return;
+        if (nodes.indexOf(el) === -1) nodes.push(el);
+      });
+    });
+    if (!nodes.length) return;
+
+    if (prefersReducedMotion || !("IntersectionObserver" in window)) {
+      nodes.forEach(function (el) { el.classList.add("is-visible"); });
+      return;
+    }
+
+    nodes.forEach(function (el) { el.setAttribute("data-reveal", ""); });
+
+    var observer = new IntersectionObserver(function (entries) {
+      // Stagger items that come into view together, so rows arrive in sequence
+      var batch = entries.filter(function (e) { return e.isIntersecting; });
+      batch.forEach(function (entry, i) {
+        var el = entry.target;
+        el.style.transitionDelay = Math.min(i, 5) * 70 + "ms";
+        el.classList.add("is-visible");
+        observer.unobserve(el);
+      });
+    }, { rootMargin: "0px", threshold: 0.01 });
+
+    nodes.forEach(function (el) {
+      // Anything already on screen at load reveals immediately
+      var box = el.getBoundingClientRect();
+      if (box.top < window.innerHeight * 0.92) {
+        el.classList.add("is-visible");
+      } else {
+        observer.observe(el);
+      }
+    });
+
+    // Failsafe: never leave something hidden that is sitting on screen.
+    // A fast flick-scroll can skip past the observer between frames, so this
+    // also runs on scroll — content being invisible is far worse than a
+    // missed animation.
+    var remaining = nodes.slice();
+    var sweep = function () {
+      if (!remaining.length) return;
+      remaining = remaining.filter(function (el) {
+        if (el.classList.contains("is-visible")) return false;
+        var box = el.getBoundingClientRect();
+        if (box.top < window.innerHeight && box.bottom > 0) {
+          el.classList.add("is-visible");
+          observer.unobserve(el);
+          return false;
+        }
+        return true;
+      });
+    };
+    var queued = false;
+    var queueSweep = function () {
+      if (queued) return;
+      queued = true;
+      requestAnimationFrame(function () { queued = false; sweep(); });
+    };
+    window.addEventListener("scroll", queueSweep, { passive: true });
+    window.addEventListener("resize", queueSweep, { passive: true });
+    window.addEventListener("load", sweep);
+    // A background tab stops firing scroll/frame callbacks, so catch up when
+    // the visitor comes back to it
+    document.addEventListener("visibilitychange", function () {
+      if (!document.hidden) sweep();
+    });
+    // Belt and braces: a short polling pass covers environments where scroll
+    // and frame callbacks are suppressed, so nothing can stay invisible.
+    var ticks = 0;
+    var timer = setInterval(function () {
+      sweep();
+      if (++ticks > 12 || !remaining.length) clearInterval(timer);
+    }, 1500);
+    setTimeout(sweep, 400);
+  }
+  initReveals();
+
+  // Re-run for content built later (projects, gallery tiles)
+  window.revealNewContent = initReveals;
+
+  /* --- Masthead condenses after a little scrolling --- */
+  var masthead = document.querySelector(".masthead");
+  if (masthead) {
+    var lastKnown = -1;
+    var onScroll = function () {
+      var y = window.pageYOffset || document.documentElement.scrollTop;
+      if (lastKnown === -1 || Math.abs(y - lastKnown) > 4) {
+        masthead.classList.toggle("is-scrolled", y > 40);
+        lastKnown = y;
+      }
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+  }
+
+  /* --- Photos fade in once decoded --- */
+  function fadeInImages(root) {
+    var imgs = (root || document).querySelectorAll(".g-frame img, .project-cover img");
+    Array.prototype.forEach.call(imgs, function (img) {
+      if (img.classList.contains("is-loaded")) return;
+      if (img.complete && img.naturalWidth) {
+        img.classList.add("is-loaded");
+      } else {
+        img.addEventListener("load", function () { img.classList.add("is-loaded"); }, { once: true });
+        img.addEventListener("error", function () { img.classList.add("is-loaded"); }, { once: true });
+      }
+    });
+  }
+  fadeInImages();
+  window.fadeInImages = fadeInImages;
+
+  /* --- Scroll cue in the hero --- */
+  var hero = document.querySelector(".hero");
+  if (hero && !prefersReducedMotion) {
+    var cue = document.createElement("span");
+    cue.className = "scroll-cue eyebrow";
+    cue.setAttribute("aria-hidden", "true");
+    cue.textContent = "Scroll";
+    hero.appendChild(cue);
+    window.addEventListener("scroll", function () {
+      cue.classList.toggle("is-gone", (window.pageYOffset || 0) > 60);
+    }, { passive: true });
+  }
+
+  /* ------------------------------------------------------------------
      Hero background video (silent, looping)
      The source is attached here rather than in the HTML so we can pick the
      right file for the screen, and skip it entirely for visitors on Data
@@ -129,6 +290,8 @@
       var empty = document.querySelector("[data-gallery-empty]");
       if (empty) empty.hidden = projects.length > 0;
       initProjects(Array.prototype.slice.call(projectsEl.querySelectorAll(".project")));
+      if (window.revealNewContent) window.revealNewContent();
+      if (window.fadeInImages) window.fadeInImages(projectsEl);
       initLightbox(Array.prototype.slice.call(projectsEl.querySelectorAll(".g-item")));
       openFromHash();
     });
@@ -270,8 +433,41 @@
     var head = article.querySelector(".project-head");
     var panel = article.querySelector(".project-panel");
     head.setAttribute("aria-expanded", String(open));
-    panel.hidden = !open;
     article.classList.toggle("open", open);
+
+    // The height animation is decoration only: every path below leaves the
+    // panel in the right state even if the animation never runs (a
+    // background tab freezes the animation clock), so content can't get
+    // stuck collapsed or stuck open.
+    var canAnimate = !prefersReducedMotion && panel.animate && !document.hidden;
+
+    if (open) {
+      var wasHidden = panel.hidden;
+      panel.hidden = false;
+      if (window.fadeInImages) window.fadeInImages(panel);
+      if (canAnimate && wasHidden) {
+        var openAnim = panel.animate(
+          [{ height: 0, opacity: 0 }, { height: panel.scrollHeight + "px", opacity: 1 }],
+          { duration: 420, easing: "cubic-bezier(0.22, 1, 0.36, 1)" }
+        );
+        // If it stalls, drop the animation so the panel sits at its natural height
+        setTimeout(function () {
+          if (openAnim.playState !== "finished") openAnim.cancel();
+        }, 700);
+      }
+    } else if (canAnimate && !panel.hidden) {
+      var closeAnim = panel.animate(
+        [{ height: panel.scrollHeight + "px", opacity: 1 }, { height: 0, opacity: 0 }],
+        { duration: 300, easing: "cubic-bezier(0.4, 0, 1, 1)" }
+      );
+      var finishClose = function () {
+        if (!article.classList.contains("open")) panel.hidden = true;
+      };
+      closeAnim.onfinish = finishClose;
+      setTimeout(function () { closeAnim.cancel(); finishClose(); }, 500);
+    } else {
+      panel.hidden = !open;
+    }
     var text = head.querySelector("[data-toggle-text]");
     if (text) text.textContent = open ? "Close" : "View project";
     var sign = head.querySelector(".project-toggle span[aria-hidden]");

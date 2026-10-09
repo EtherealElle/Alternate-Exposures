@@ -919,10 +919,7 @@ em, .ital { font-family: var(--serif); font-style: italic; }
 .faq summary:hover { color: var(--accent); }
 .faq details p { margin: 0; padding: 0 0 26px; max-width: 64ch; color: var(--ink-2); }
 
-@media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  * { transition: none !important; }
-}
+
 
 .lb-stage iframe { flex: none; border: 0; background: var(--ink); }
 
@@ -949,3 +946,169 @@ em, .ital { font-family: var(--serif); font-style: italic; }
 /* Home "Selected work" tiles once real images are added */
 .ph.has-img { background-size: cover; background-position: center; }
 .ph.has-img::after { content: none; }
+
+
+/* ==========================================================================
+   Motion
+   Everything here is opacity/transform only, and all of it switches off for
+   visitors who ask for reduced motion (bottom of this file).
+   ========================================================================== */
+
+/* Smooth cross-fade between pages in browsers that support it */
+@view-transition { navigation: auto; }
+
+/* --- Scroll reveals ------------------------------------------------------
+   .js is set by an inline script in <head>, so with JavaScript off nothing
+   is ever hidden. */
+.js [data-reveal] {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+.js [data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
+  will-change: auto;
+}
+
+/* --- Hero entrance ------------------------------------------------------- */
+@keyframes rise-in {
+  from { opacity: 0; transform: translateY(26px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes scrim-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+/* Very slow push-in on the background video so a static frame never feels dead */
+@keyframes hero-drift {
+  from { transform: scale(1.06); }
+  to { transform: scale(1); }
+}
+
+.js .hero::after { animation: scrim-in 1.2s ease both; }
+.js .hero-video { animation: hero-drift 24s ease-out both; }
+.js .hero-inner > * { animation: rise-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.js .hero-inner > .eyebrow { animation-delay: 0.15s; }
+.js .hero-inner > h1 { animation-delay: 0.28s; }
+.js .hero-inner > .dek { animation-delay: 0.46s; }
+.js .hero-inner > .cover-actions { animation-delay: 0.6s; }
+
+/* Scroll cue under the hero text */
+.scroll-cue {
+  position: absolute;
+  right: var(--gutter);
+  bottom: 26px;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  font-size: 10px;
+  color: rgba(246, 242, 235, 0.7);
+  transition: opacity 0.4s ease;
+}
+.scroll-cue::after {
+  content: "";
+  width: 1px;
+  height: 46px;
+  background: linear-gradient(to bottom, rgba(246, 242, 235, 0.8), transparent);
+  animation: cue-slide 2.4s ease-in-out infinite;
+}
+@keyframes cue-slide {
+  0% { transform: scaleY(0.2); transform-origin: top; opacity: 0; }
+  40% { transform: scaleY(1); opacity: 1; }
+  100% { transform: scaleY(1); transform-origin: bottom; opacity: 0; }
+}
+.scroll-cue.is-gone { opacity: 0; pointer-events: none; }
+@media (max-width: 900px) { .scroll-cue { display: none; } }
+
+/* --- Masthead condenses once you scroll ---------------------------------- */
+.masthead {
+  transition: box-shadow 0.4s ease, background-color 0.4s ease;
+}
+.masthead .container { transition: height 0.4s cubic-bezier(0.22, 1, 0.36, 1); }
+.logo { transition: font-size 0.4s cubic-bezier(0.22, 1, 0.36, 1); }
+.masthead.is-scrolled .container { height: 60px; }
+.masthead.is-scrolled .logo { font-size: clamp(19px, 2vw, 23px); }
+.masthead.is-scrolled { box-shadow: 0 1px 24px rgba(28, 26, 23, 0.07); }
+
+/* --- Photos fade in as they decode --------------------------------------- */
+.js .g-frame img,
+.js .project-cover img {
+  opacity: 0;
+  transition: opacity 0.6s ease, filter 0.4s ease, transform 0.6s ease;
+}
+.js .g-frame img.is-loaded,
+.js .project-cover img.is-loaded { opacity: 1; }
+
+/* --- Project rows -------------------------------------------------------- */
+.project-head { transition: opacity 0.2s ease, background-color 0.3s ease; }
+.project-head:hover { background-color: rgba(28, 26, 23, 0.025); }
+.project-name { transition: color 0.3s ease; }
+.project-toggle span[aria-hidden] { transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1); display: inline-block; }
+.project.open .project-toggle span[aria-hidden] { transform: rotate(180deg); }
+.project-panel { overflow: hidden; }
+.js .project.open .project-media .g-item { animation: rise-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) both; }
+
+/* --- Rates --------------------------------------------------------------- */
+.rate { transition: background-color 0.3s ease; }
+.rate:hover { background-color: rgba(28, 26, 23, 0.02); }
+.rate .leader { transition: border-color 0.3s ease; }
+.rate:hover .leader { border-color: var(--accent); }
+.rate .price { transition: color 0.3s ease; }
+.rate:hover .price { color: var(--accent); }
+
+/* --- Process steps ------------------------------------------------------- */
+.process li { transition: border-color 0.3s ease; }
+.process li:hover { border-color: var(--accent); }
+
+/* --- Closing panel ------------------------------------------------------- */
+.closing .btn { transition: background 0.25s, color 0.25s, border-color 0.25s, transform 0.25s; }
+.closing .btn:hover { transform: translateY(-2px); }
+
+/* --- Lightbox ------------------------------------------------------------ */
+@keyframes lb-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes lb-media-in {
+  from { opacity: 0; transform: scale(0.985); }
+  to { opacity: 1; transform: none; }
+}
+.js .lightbox.open { animation: lb-in 0.28s ease both; }
+.js .lb-stage > * { animation: lb-media-in 0.4s cubic-bezier(0.22, 1, 0.36, 1) both; }
+
+/* --- Form ---------------------------------------------------------------- */
+.field input, .field select, .field textarea { transition: border-color 0.25s ease, background-color 0.25s ease; }
+.form-status { animation: rise-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.btn[disabled] { opacity: 0.6; cursor: progress; }
+
+/* --- FAQ ----------------------------------------------------------------- */
+.faq summary { transition: color 0.25s ease, padding-left 0.3s ease; }
+.faq summary:hover { padding-left: 6px; }
+.faq summary::after { transition: transform 0.3s ease, color 0.25s ease; }
+.faq details[open] summary::after { transform: rotate(180deg); }
+.js .faq details[open] p { animation: rise-in 0.45s ease both; }
+
+/* --- Footer -------------------------------------------------------------- */
+.site-footer a { transition: color 0.25s ease; }
+.footer-brand em { transition: color 0.3s ease; }
+
+/* --------------------------------------------------------------------------
+   Reduced motion: hold everything still
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+  .js [data-reveal] { opacity: 1 !important; transform: none !important; }
+  .js .g-frame img,
+  .js .project-cover img { opacity: 1 !important; }
+  .scroll-cue { display: none; }
+  ::view-transition-group(*),
+  ::view-transition-old(root),
+  ::view-transition-new(root) { animation: none !important; }
+}
