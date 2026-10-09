@@ -962,8 +962,8 @@ em, .ital { font-family: var(--serif); font-style: italic; }
    is ever hidden. */
 .js [data-reveal] {
   opacity: 0;
-  transform: translateY(18px);
-  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  transform: translateY(30px);
+  transition: opacity 1.15s cubic-bezier(0.22, 1, 0.36, 1), transform 1.15s cubic-bezier(0.22, 1, 0.36, 1);
   will-change: opacity, transform;
 }
 .js [data-reveal].is-visible {
@@ -974,7 +974,7 @@ em, .ital { font-family: var(--serif); font-style: italic; }
 
 /* --- Hero entrance ------------------------------------------------------- */
 @keyframes rise-in {
-  from { opacity: 0; transform: translateY(26px); }
+  from { opacity: 0; transform: translateY(30px); }
   to { opacity: 1; transform: none; }
 }
 @keyframes scrim-in {
@@ -987,13 +987,13 @@ em, .ital { font-family: var(--serif); font-style: italic; }
   to { transform: scale(1); }
 }
 
-.js .hero::after { animation: scrim-in 1.2s ease both; }
-.js .hero-video { animation: hero-drift 24s ease-out both; }
-.js .hero-inner > * { animation: rise-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) both; }
-.js .hero-inner > .eyebrow { animation-delay: 0.15s; }
-.js .hero-inner > h1 { animation-delay: 0.28s; }
-.js .hero-inner > .dek { animation-delay: 0.46s; }
-.js .hero-inner > .cover-actions { animation-delay: 0.6s; }
+.js .hero::after { animation: scrim-in 1.8s ease both; }
+.js .hero-video { animation: hero-drift 40s ease-out both; }
+.js .hero-inner > * { animation: rise-in 1.3s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.js .hero-inner > .eyebrow { animation-delay: 0.2s; }
+.js .hero-inner > h1 { animation-delay: 0.42s; }
+.js .hero-inner > .dek { animation-delay: 0.72s; }
+.js .hero-inner > .cover-actions { animation-delay: 0.98s; }
 
 /* Scroll cue under the hero text */
 .scroll-cue {
@@ -1014,7 +1014,7 @@ em, .ital { font-family: var(--serif); font-style: italic; }
   width: 1px;
   height: 46px;
   background: linear-gradient(to bottom, rgba(246, 242, 235, 0.8), transparent);
-  animation: cue-slide 2.4s ease-in-out infinite;
+  animation: cue-slide 3.2s ease-in-out infinite;
 }
 @keyframes cue-slide {
   0% { transform: scaleY(0.2); transform-origin: top; opacity: 0; }
@@ -1028,8 +1028,8 @@ em, .ital { font-family: var(--serif); font-style: italic; }
 .masthead {
   transition: box-shadow 0.4s ease, background-color 0.4s ease;
 }
-.masthead .container { transition: height 0.4s cubic-bezier(0.22, 1, 0.36, 1); }
-.logo { transition: font-size 0.4s cubic-bezier(0.22, 1, 0.36, 1); }
+.masthead .container { transition: height 0.55s cubic-bezier(0.22, 1, 0.36, 1); }
+.logo { transition: font-size 0.55s cubic-bezier(0.22, 1, 0.36, 1); }
 .masthead.is-scrolled .container { height: 60px; }
 .masthead.is-scrolled .logo { font-size: clamp(19px, 2vw, 23px); }
 .masthead.is-scrolled { box-shadow: 0 1px 24px rgba(28, 26, 23, 0.07); }
@@ -1038,7 +1038,7 @@ em, .ital { font-family: var(--serif); font-style: italic; }
 .js .g-frame img,
 .js .project-cover img {
   opacity: 0;
-  transition: opacity 0.6s ease, filter 0.4s ease, transform 0.6s ease;
+  transition: opacity 0.9s ease, filter 0.4s ease, transform 0.6s ease;
 }
 .js .g-frame img.is-loaded,
 .js .project-cover img.is-loaded { opacity: 1; }
@@ -1050,7 +1050,7 @@ em, .ital { font-family: var(--serif); font-style: italic; }
 .project-toggle span[aria-hidden] { transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1); display: inline-block; }
 .project.open .project-toggle span[aria-hidden] { transform: rotate(180deg); }
 .project-panel { overflow: hidden; }
-.js .project.open .project-media .g-item { animation: rise-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.js .project.open .project-media .g-item { animation: rise-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) both; }
 
 /* --- Rates --------------------------------------------------------------- */
 .rate { transition: background-color 0.3s ease; }
@@ -1074,12 +1074,12 @@ em, .ital { font-family: var(--serif); font-style: italic; }
   from { opacity: 0; transform: scale(0.985); }
   to { opacity: 1; transform: none; }
 }
-.js .lightbox.open { animation: lb-in 0.28s ease both; }
-.js .lb-stage > * { animation: lb-media-in 0.4s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.js .lightbox.open { animation: lb-in 0.4s ease both; }
+.js .lb-stage > * { animation: lb-media-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) both; }
 
 /* --- Form ---------------------------------------------------------------- */
 .field input, .field select, .field textarea { transition: border-color 0.25s ease, background-color 0.25s ease; }
-.form-status { animation: rise-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.form-status { animation: rise-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) both; }
 .btn[disabled] { opacity: 0.6; cursor: progress; }
 
 /* --- FAQ ----------------------------------------------------------------- */
@@ -1087,7 +1087,7 @@ em, .ital { font-family: var(--serif); font-style: italic; }
 .faq summary:hover { padding-left: 6px; }
 .faq summary::after { transition: transform 0.3s ease, color 0.25s ease; }
 .faq details[open] summary::after { transform: rotate(180deg); }
-.js .faq details[open] p { animation: rise-in 0.45s ease both; }
+.js .faq details[open] p { animation: rise-in 0.65s ease both; }
 
 /* --- Footer -------------------------------------------------------------- */
 .site-footer a { transition: color 0.25s ease; }

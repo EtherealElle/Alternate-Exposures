@@ -62,16 +62,18 @@
       var batch = entries.filter(function (e) { return e.isIntersecting; });
       batch.forEach(function (entry, i) {
         var el = entry.target;
-        el.style.transitionDelay = Math.min(i, 5) * 70 + "ms";
+        el.style.transitionDelay = Math.min(i, 6) * 120 + "ms";
         el.classList.add("is-visible");
         observer.unobserve(el);
       });
-    }, { rootMargin: "0px", threshold: 0.01 });
+      // The bottom margin holds the reveal back until the element is properly
+      // in view, rather than firing the moment its top edge appears.
+    }, { rootMargin: "0px 0px -18% 0px", threshold: 0.01 });
 
     nodes.forEach(function (el) {
       // Anything already on screen at load reveals immediately
       var box = el.getBoundingClientRect();
-      if (box.top < window.innerHeight * 0.92) {
+      if (box.top < window.innerHeight * 0.82) {
         el.classList.add("is-visible");
       } else {
         observer.observe(el);
@@ -85,10 +87,15 @@
     var remaining = nodes.slice();
     var sweep = function () {
       if (!remaining.length) return;
+      var atPageBottom = window.innerHeight + window.pageYOffset >=
+        document.documentElement.scrollHeight - 2;
       remaining = remaining.filter(function (el) {
         if (el.classList.contains("is-visible")) return false;
         var box = el.getBoundingClientRect();
-        if (box.top < window.innerHeight && box.bottom > 0) {
+        var wellInView = box.top < window.innerHeight * 0.82 && box.bottom > 0;
+        // Elements sitting in the last screenful can never clear that line
+        var strandedAtBottom = atPageBottom && box.top < window.innerHeight && box.bottom > 0;
+        if (wellInView || strandedAtBottom) {
           el.classList.add("is-visible");
           observer.unobserve(el);
           return false;
@@ -448,23 +455,23 @@
       if (canAnimate && wasHidden) {
         var openAnim = panel.animate(
           [{ height: 0, opacity: 0 }, { height: panel.scrollHeight + "px", opacity: 1 }],
-          { duration: 420, easing: "cubic-bezier(0.22, 1, 0.36, 1)" }
+          { duration: 560, easing: "cubic-bezier(0.22, 1, 0.36, 1)" }
         );
         // If it stalls, drop the animation so the panel sits at its natural height
         setTimeout(function () {
           if (openAnim.playState !== "finished") openAnim.cancel();
-        }, 700);
+        }, 900);
       }
     } else if (canAnimate && !panel.hidden) {
       var closeAnim = panel.animate(
         [{ height: panel.scrollHeight + "px", opacity: 1 }, { height: 0, opacity: 0 }],
-        { duration: 300, easing: "cubic-bezier(0.4, 0, 1, 1)" }
+        { duration: 400, easing: "cubic-bezier(0.4, 0, 1, 1)" }
       );
       var finishClose = function () {
         if (!article.classList.contains("open")) panel.hidden = true;
       };
       closeAnim.onfinish = finishClose;
-      setTimeout(function () { closeAnim.cancel(); finishClose(); }, 500);
+      setTimeout(function () { closeAnim.cancel(); finishClose(); }, 650);
     } else {
       panel.hidden = !open;
     }
