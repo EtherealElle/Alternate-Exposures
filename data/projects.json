@@ -1,1 +1,104 @@
-[]
+[
+  {
+    "name": "ATL Shoot",
+    "client": "",
+    "category": "artist",
+    "date": "",
+    "cover": "/images/gallery/atl-shoot/dsc00241.jpg",
+    "description": "Street portraits around the city \u2014 fisheye frames, painted walls and hard flash. Solo looks and pairs, shot fast on location.",
+    "videos": [],
+    "photos": [
+      "/images/gallery/atl-shoot/dsc00241.jpg",
+      "/images/gallery/atl-shoot/dsc00180.jpg",
+      "/images/gallery/atl-shoot/dsc00214.jpg",
+      "/images/gallery/atl-shoot/dsc00278.jpg",
+      "/images/gallery/atl-shoot/dsc00289.jpg",
+      "/images/gallery/atl-shoot/dsc00311.jpg",
+      "/images/gallery/atl-shoot/dsc00326.jpg",
+      "/images/gallery/atl-shoot/dsc00394.jpg",
+      "/images/gallery/atl-shoot/dsc00395.jpg"
+    ],
+    "featured": true
+  },
+  {
+    "name": "Mafia Shoot",
+    "client": "",
+    "category": "lookbook",
+    "date": "",
+    "cover": "/images/gallery/mafia-shoot/dsc03934.jpg",
+    "description": "Tailored styling against stone and late afternoon light. Group frames and individual portraits, shot on location.",
+    "videos": [],
+    "photos": [
+      "/images/gallery/mafia-shoot/dsc03934.jpg",
+      "/images/gallery/mafia-shoot/dsc03889.jpg",
+      "/images/gallery/mafia-shoot/dsc03958.jpg",
+      "/images/gallery/mafia-shoot/dsc03963.jpg",
+      "/images/gallery/mafia-shoot/dsc03977.jpg",
+      "/images/gallery/mafia-shoot/dsc03995.jpg",
+      "/images/gallery/mafia-shoot/dsc04008.jpg",
+      "/images/gallery/mafia-shoot/dsc04009.jpg",
+      "/images/gallery/mafia-shoot/dsc04066.jpg",
+      "/images/gallery/mafia-shoot/dsc04072.jpg",
+      "/images/gallery/mafia-shoot/dsc04116.jpg"
+    ],
+    "featured": true
+  },
+  {
+    "name": "90s / 00s Shoot",
+    "client": "",
+    "category": "lookbook",
+    "date": "",
+    "cover": "/images/gallery/90s-00s-shoot/dsc06114.jpg",
+    "description": "Throwback styling on an outdoor court \u2014 denim, jerseys and bandanas, in colour and black and white.",
+    "videos": [],
+    "photos": [
+      "/images/gallery/90s-00s-shoot/dsc06114.jpg",
+      "/images/gallery/90s-00s-shoot/dsc06083.jpg",
+      "/images/gallery/90s-00s-shoot/dsc06168.jpg",
+      "/images/gallery/90s-00s-shoot/dsc06231.jpg",
+      "/images/gallery/90s-00s-shoot/dsc06234.jpg",
+      "/images/gallery/90s-00s-shoot/dsc06297.jpg",
+      "/images/gallery/90s-00s-shoot/dsc06308.jpg"
+    ],
+    "featured": true
+  },
+  {
+    "name": "Grunge Shoot",
+    "client": "",
+    "category": "artist",
+    "date": "",
+    "cover": "/images/gallery/grunge-shoot/dsc09104.jpg",
+    "description": "Night session under graffiti and low ceilings, lit with direct flash. Solo portraits and group frames.",
+    "videos": [],
+    "photos": [
+      "/images/gallery/grunge-shoot/dsc09104.jpg",
+      "/images/gallery/grunge-shoot/dsc08948.jpg",
+      "/images/gallery/grunge-shoot/dsc09007.jpg",
+      "/images/gallery/grunge-shoot/dsc09150.jpg",
+      "/images/gallery/grunge-shoot/dsc09169.jpg",
+      "/images/gallery/grunge-shoot/dsc09182.jpg",
+      "/images/gallery/grunge-shoot/dsc09206.jpg",
+      "/images/gallery/grunge-shoot/dsc09490.jpg"
+    ],
+    "featured": false
+  },
+  {
+    "name": "Dante's Shoot",
+    "client": "",
+    "category": "artist",
+    "date": "",
+    "cover": "/images/gallery/dante-s-shoot/p1080454.jpg",
+    "description": "Indoor portrait session in warm, plant-filled rooms. Relaxed posing, soft natural light.",
+    "videos": [],
+    "photos": [
+      "/images/gallery/dante-s-shoot/p1080454.jpg",
+      "/images/gallery/dante-s-shoot/p1080422.jpg",
+      "/images/gallery/dante-s-shoot/p1080435.jpg",
+      "/images/gallery/dante-s-shoot/p1080481.jpg",
+      "/images/gallery/dante-s-shoot/p1080483.jpg",
+      "/images/gallery/dante-s-shoot/p1080487.jpg",
+      "/images/gallery/dante-s-shoot/p1080494.jpg"
+    ],
+    "featured": false
+  }
+]

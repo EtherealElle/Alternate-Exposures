@@ -10,3 +10,6 @@ desktop.ini
 
 # Original camera files: keep out of the repo (web versions live in videos/)
 videos/source/
+
+# Original camera photos: masters kept locally, web versions live in images/gallery/
+images/source/
